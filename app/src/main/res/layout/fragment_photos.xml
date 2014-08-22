@@ -1,22 +1,166 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    
-    <TextView
-        android:id="@+id/txtLabel"
-         android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.collusion.serviceassistant.TractCounter"
+    android:background="#ff7ccaae">
+
+
+    <ScrollView
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textSize="16dp"
-        android:text="Photos View"/>
-    
-    <ImageView android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txtLabel"
-        android:src="@drawable/ic_photos"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"/>
-    
+        android:id="@+id/scrollView" >
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/jwtpic1"
+                android:src="@drawable/jwtract"
+                android:clickable="true"
+                android:onClick="tapAddOne" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/jwt2pic"
+                android:src="@drawable/jwt2"
+                android:layout_above="@+id/jwt4pic"
+                android:layout_toRightOf="@+id/jwt1counter"
+                android:layout_marginLeft="37dp"
+                android:clickable="true"
+                android:onClick="tapAddTwo" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/jwt3pic"
+                android:src="@drawable/jwt3"
+                android:layout_below="@+id/jwtpic1"
+                android:clickable="true"
+                android:onClick="tapAddThree"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/jwt4pic"
+                android:src="@drawable/jwt4"
+                android:layout_alignTop="@+id/jwt3pic"
+                android:layout_alignLeft="@+id/jwt2pic"
+                android:layout_alignStart="@+id/jwt2pic"
+                android:clickable="true"
+                android:onClick="tapAddFour"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/jwt5pic"
+                android:layout_below="@+id/jwt3pic"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:src="@drawable/jwt5"
+                android:clickable="true"
+                android:onClick="tapAddFive"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/jwt6pic"
+                android:src="@drawable/jwt6"
+                android:layout_alignParentBottom="true"
+                android:layout_alignLeft="@+id/jwt4pic"
+                android:layout_alignStart="@+id/jwt4pic"
+                android:clickable="true"
+                android:onClick="tapAddSix"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="0"
+                android:id="@+id/jwt1counter"
+                android:layout_marginBottom="51dp"
+                android:clickable="true"
+                android:textSize="50sp"
+                android:layout_alignBottom="@+id/jwtpic1"
+                android:layout_toRightOf="@+id/jwtpic1"
+                android:layout_marginLeft="37dp"
+                android:onClick="tapAddOne" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="0"
+                android:id="@+id/jwt3counter"
+                android:textSize="50sp"
+                android:layout_centerVertical="true"
+                android:layout_alignLeft="@+id/jwt1counter"
+                android:layout_alignStart="@+id/jwt1counter"
+                android:clickable="true"
+                android:onClick="tapAddThree"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="0"
+                android:id="@+id/jwt5counter"
+                android:layout_marginTop="50dp"
+                android:textSize="50sp"
+                android:layout_alignTop="@+id/jwt5pic"
+                android:layout_alignLeft="@+id/jwt3counter"
+                android:layout_alignStart="@+id/jwt3counter"
+                android:onClick="tapAddFive"
+                android:clickable="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="0"
+                android:id="@+id/jwt2counter"
+                android:textSize="50sp"
+                android:layout_alignTop="@+id/jwt1counter"
+                android:layout_toRightOf="@+id/jwt2pic"
+                android:layout_marginLeft="35dp"
+                android:clickable="true"
+                android:onClick="tapAddTwo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="0"
+                android:id="@+id/jwt4counter"
+                android:textSize="50sp"
+                android:layout_centerVertical="true"
+                android:layout_alignLeft="@+id/jwt2counter"
+                android:layout_alignStart="@+id/jwt2counter"
+                android:clickable="true"
+                android:onClick="tapAddFour"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="0"
+                android:id="@+id/jwt6counter"
+                android:textSize="50sp"
+                android:layout_alignTop="@+id/jwt5counter"
+                android:layout_alignLeft="@+id/jwt4counter"
+                android:layout_alignStart="@+id/jwt4counter"
+                android:clickable="true"
+                android:onClick="tapAddSix"/>
+
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>
