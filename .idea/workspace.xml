@@ -37,7 +37,8 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="app: com.collusion.serviceassistant" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2ff5f11d-b22f-4a18-8be1-8798353c4347" name="Default" comment="3rd commit">
+    <list default="true" id="2ff5f11d-b22f-4a18-8be1-8798353c4347" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="SlidingMenu.iws" />
@@ -77,12 +78,13 @@
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.32692307" vertical-offset="0" max-vertical-offset="2924">
-              <caret line="7" column="47" selection-start-line="7" selection-start-column="47" selection-end-line="7" selection-end-column="47" />
+            <state vertical-scroll-proportion="0.8406593" vertical-offset="0" max-vertical-offset="2924">
+              <caret line="18" column="35" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
               <folding>
                 <element signature="e#231#266#0" expanded="true" />
                 <element signature="e#292#327#0" expanded="true" />
                 <element signature="e#351#384#0" expanded="true" />
+                <element signature="e#411#444#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1351,7 +1353,7 @@
     <property name="MemberChooser.sorted" value="false" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="MemberChooser.copyJavadoc" value="false" />
-    <property name="options.lastSelected" value="vcs.Git" />
+    <property name="options.lastSelected" value="settings.github" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="options.searchVisible" value="true" />
@@ -1549,7 +1551,7 @@
     </option>
   </component>
   <component name="SvnConfiguration">
-    <configuration />
+    <configuration>C:\Users\Antonio\AppData\Roaming\Subversion</configuration>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -1577,7 +1579,11 @@
       <created>1408734444296</created>
       <updated>1408734444296</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="3rd commit">
+      <created>1408734630386</created>
+      <updated>1408734630386</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -2091,12 +2097,13 @@
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.32692307" vertical-offset="0" max-vertical-offset="2924">
-          <caret line="7" column="47" selection-start-line="7" selection-start-column="47" selection-end-line="7" selection-end-column="47" />
+        <state vertical-scroll-proportion="0.8406593" vertical-offset="0" max-vertical-offset="2924">
+          <caret line="18" column="35" selection-start-line="18" selection-start-column="35" selection-end-line="18" selection-end-column="35" />
           <folding>
             <element signature="e#231#266#0" expanded="true" />
             <element signature="e#292#327#0" expanded="true" />
             <element signature="e#351#384#0" expanded="true" />
+            <element signature="e#411#444#0" expanded="true" />
           </folding>
         </state>
       </provider>
