@@ -1,5 +1,6 @@
 package com.collusion.serviceassistant;
 
+import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.Fragment;
 import android.app.NotificationManager;
@@ -60,6 +61,7 @@ public class HomeFragment extends Fragment {
         tv.setOnClickListener(tapAdd);
         Button button = (Button) getView().findViewById(R.id.goalButton);
         button.setOnClickListener(goalDialogLaunch);
+        setupAlarm(100);
     }
 
     View.OnClickListener tapAdd = new View.OnClickListener() {
@@ -98,6 +100,24 @@ public class HomeFragment extends Fragment {
                 }
         }
     };
+
+    private void setupAlarm(int seconds) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent intent = new Intent(getBaseContext(), OnAlarmReceive.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                getActivity(), 0, intent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Log.d("INFO", "Setup the alarm");
+
+        // Getting current time and add the seconds in it
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.SECOND, seconds);
+
+        alarmManager.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), pendingIntent);
+
+        // Finish the currently running activity
+    }
 
     //No File Access
     View.OnClickListener goalDialogLaunch = new View.OnClickListener() {

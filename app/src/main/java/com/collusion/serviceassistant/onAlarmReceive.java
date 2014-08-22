@@ -12,9 +12,5 @@ public class onAlarmReceive extends BroadcastReceiver {
 
         Log.d("ALARM", "BroadcastReceiver, in onReceive:");
 
-        // Start the MainActivity
-        Intent i = new Intent(context, NotificationActivate.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(i);
     }
 }
