@@ -102,8 +102,8 @@ public class HomeFragment extends Fragment {
     };
 
     private void setupAlarm(int seconds) {
-        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Intent intent = new Intent(getBaseContext(), OnAlarmReceive.class);
+        AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(getActivity().ALARM_SERVICE);
+        Intent intent = new Intent(getActivity().getBaseContext(), onAlarmReceive.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 getActivity(), 0, intent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
