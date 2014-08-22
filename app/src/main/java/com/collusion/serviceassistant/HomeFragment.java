@@ -47,6 +47,8 @@ public class HomeFragment extends Fragment {
         SharedPreferences sharedPrefs = this.getActivity().getSharedPreferences("GoalSettings", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = this.getActivity().getSharedPreferences("GoalSettings", Context.MODE_PRIVATE).edit();
 
+
+
         if (sharedPrefs.getInt("Goal", -1) == -1) {
             Log.i("INFO", "NO VALUE< WRITING NEW VALUE TO 0");
             editor.putInt("Goal", 0);
@@ -61,7 +63,16 @@ public class HomeFragment extends Fragment {
         tv.setOnClickListener(tapAdd);
         Button button = (Button) getView().findViewById(R.id.goalButton);
         button.setOnClickListener(goalDialogLaunch);
-        setupAlarm(100);
+
+        Calendar cal = Calendar.getInstance();
+        int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+        Log.i("INFO", String.valueOf(currentDay));
+        int secondsUntilday = 31-currentDay;//*24*60*60;
+        secondsUntilday = secondsUntilday*24;
+        secondsUntilday = secondsUntilday*60;
+        secondsUntilday = secondsUntilday*60;
+        Log.i("NUMBERS", String.valueOf(secondsUntilday));
+        setupAlarm(secondsUntilday);
     }
 
     View.OnClickListener tapAdd = new View.OnClickListener() {
