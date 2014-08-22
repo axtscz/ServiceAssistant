@@ -170,7 +170,7 @@ public class MainActivity extends Activity {
 			fragment = new HistoryFragment();
 			break;
 		case 2:
-			fragment = new PhotosFragment();
+			fragment = new TractCounter();
 			break;
 		case 3:
 			fragment = new CommunityFragment();
