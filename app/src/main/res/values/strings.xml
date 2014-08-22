@@ -37,5 +37,6 @@
     <string name="EnterAGoal">Enter a goal for the month</string>
     <string name="CancelButton">Cancel</string>
     <string name="saveButton">Save</string>
+    <string name="resetMenu">Reset</string>
 
 </resources>

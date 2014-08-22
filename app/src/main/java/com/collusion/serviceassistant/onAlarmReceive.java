@@ -25,8 +25,8 @@ public class onAlarmReceive extends BroadcastReceiver {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(context)
                         .setSmallIcon(R.drawable.ic_history64)
-                        .setContentTitle("My notification")
-                        .setContentText("Hello World!");
+                        .setContentTitle("Report Ready")
+                        .setContentText("Your Monthly report is ready");
 // Creates an explicit intent for an Activity in your app
         Intent resultIntent = new Intent(context, getClass());
 

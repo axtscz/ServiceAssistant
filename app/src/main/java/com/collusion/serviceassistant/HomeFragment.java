@@ -13,6 +13,9 @@ import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -37,8 +40,29 @@ public class HomeFragment extends Fragment {
             Bundle savedInstanceState) {
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
-
+        setHasOptionsMenu(true);
         return rootView;
+    }
+
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.home_menu, menu);
+        //fav.setIcon(R.drawable.btn_star_big_off);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.reset:
+                reset();
+                return false;
+            //case R.id.fragment_menu_item:
+                // Do Fragment menu item stuff here
+                //return true;
+            default:
+                break;
+        }
+
+        return false;
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState)
@@ -64,10 +88,17 @@ public class HomeFragment extends Fragment {
         Button button = (Button) getView().findViewById(R.id.goalButton);
         button.setOnClickListener(goalDialogLaunch);
 
+        alarmDeterminate();
+
+
+    }
+
+    public void alarmDeterminate()
+    {
         Calendar cal = Calendar.getInstance();
         int currentDay = cal.get(Calendar.DAY_OF_MONTH);
         Log.i("INFO", String.valueOf(currentDay));
-        int secondsUntilday = 31-currentDay;//*24*60*60;
+        int secondsUntilday = 31-currentDay;
         secondsUntilday = secondsUntilday*24;
         secondsUntilday = secondsUntilday*60;
         secondsUntilday = secondsUntilday*60;
@@ -458,39 +489,6 @@ public class HomeFragment extends Fragment {
 
             Integer hoursToGo = goalNum - hourstoDate;
             String hoursToGoStr = Integer.toString(hoursToGo);
-
-            if (currentDay > 10) {
-                /*
-                NotificationCompat.Builder mBuilder =
-                        new NotificationCompat.Builder(this)
-                                .setSmallIcon(R.drawable.notification_icon64)
-                                .setContentTitle("Goal update")
-                                .setContentText("You only need " + hoursToGoStr + " hours to reach this months goal");
-// Creates an explicit intent for an Activity in your app
-                Intent resultIntent = new Intent(this, MainActivity.class);
-
-// The stack builder object will contain an artificial back stack for the
-// started Activity.
-// This ensures that navigating backward from the Activity leads out of
-// your application to the Home screen.
-                TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-// Adds the back stack for the Intent (but not the Intent itself)
-                stackBuilder.addParentStack(HomeFragment.class);
-// Adds the Intent that starts the Activity to the top of the stack
-                stackBuilder.addNextIntent(resultIntent);
-                PendingIntent resultPendingIntent =
-                        stackBuilder.getPendingIntent(
-                                0,
-                                PendingIntent.FLAG_UPDATE_CURRENT
-                        );
-                mBuilder.setContentIntent(resultPendingIntent);
-                NotificationManager mNotificationManager =
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-// mId allows you to update the notification later on.
-                mNotificationManager.notify(mId, mBuilder.build());
-            }
-            */
-            }
             TextView left = (TextView) getView().findViewById(R.id.HoursToGo);
             if (hoursToGo <= 0) {
                 left.setText("You are done!");
