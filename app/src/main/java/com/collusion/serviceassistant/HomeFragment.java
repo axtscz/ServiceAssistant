@@ -33,6 +33,14 @@ import java.util.Calendar;
 
 public class HomeFragment extends Fragment {
     private View myFragmentView;
+    Integer elementID1 = R.id.jwt1counter;
+    Integer elementID2 = R.id.jwt2counter;
+    Integer elementID3 = R.id.jwt3counter;
+    Integer elementID4 = R.id.jwt4counter;
+    Integer elementID5 = R.id.jwt5counter;
+    Integer elementID6 = R.id.jwt6counter;
+
+
 	public HomeFragment(){}
 	
 	@Override
@@ -90,6 +98,58 @@ public class HomeFragment extends Fragment {
 
         alarmDeterminate();
 
+        createFiles();
+
+
+    }
+
+    public void updateUIElement(File file1, Integer elementID)
+    {
+        FileOperations FO = new FileOperations();
+        String data = FO.getOldData(file1);
+        TextView tv = (TextView) getView().findViewById(elementID);
+        tv.setText(data);
+    }
+
+    private void createFiles() {
+        Calendar cal = Calendar.getInstance();
+        int currentMonth = cal.get(Calendar.MONTH) + 1;
+        int currentYear = cal.get(Calendar.YEAR);
+        int currentDay = cal.get(Calendar.DAY_OF_MONTH);
+        Log.i("INFO", Integer.toString(currentYear));
+        if (currentMonth > 9) {
+            String CurrentMonthFilePath = Integer.toString(currentMonth) + Integer.toString(currentYear);
+            Log.i("INFO", "adding!");
+            File root = android.os.Environment.getExternalStorageDirectory();
+            java.io.File fileMags = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/", CurrentMonthFilePath + "mags" +".txt");
+            java.io.File fileRVS = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/", CurrentMonthFilePath + "rvs" + ".txt");
+            java.io.File fileBooks = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/", CurrentMonthFilePath + "book"+".txt");
+            java.io.File fileBrochures = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/", CurrentMonthFilePath + "bro" + ".txt");
+            String dir = "/ServiceAssistant/";
+
+            FileOperations FO = new FileOperations();
+            FO.createfile(fileMags,dir);
+            FO.createfile(fileRVS,dir);
+            FO.createfile(fileBooks,dir);
+            FO.createfile(fileBrochures,dir);
+
+        }
+        else
+        {
+            String CurrentMonthFilePath = "0"+ Integer.toString(currentMonth) + Integer.toString(currentYear);
+            File root = android.os.Environment.getExternalStorageDirectory();
+            java.io.File fileMags = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/", CurrentMonthFilePath + "mags" +".txt");
+            java.io.File fileRVS = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/", CurrentMonthFilePath + "rvs" + ".txt");
+            java.io.File fileBooks = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/", CurrentMonthFilePath + "book"+".txt");
+            java.io.File fileBrochures = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/", CurrentMonthFilePath + "bro" + ".txt");
+            String dir = "/ServiceAssistant/";
+
+            FileOperations FO = new FileOperations();
+            FO.createfile(fileMags,dir);
+            FO.createfile(fileRVS,dir);
+            FO.createfile(fileBooks,dir);
+            FO.createfile(fileBrochures,dir);
+        }
 
     }
 
@@ -118,7 +178,7 @@ public class HomeFragment extends Fragment {
                     Log.i("INFO", "adding!");
                     File root = android.os.Environment.getExternalStorageDirectory();
                     java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/", CurrentMonthFilePath + ".txt");
-                    String dir = "/ServiceAssistant/";
+                    String dir = "/ServiceAssistant/OtherStats/";
 
                     FileOperations FO = new FileOperations();
                     FO.addOneToData(file1, dir);
@@ -132,7 +192,7 @@ public class HomeFragment extends Fragment {
                     Log.i("INFO", "Adding!");
                     File root = android.os.Environment.getExternalStorageDirectory();
                     java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/", CurrentMonthFilePath + ".txt");
-                    String dir = "/ServiceAssistant/";
+                    String dir = "/ServiceAssistant/OtherStats/";
 
                     FileOperations FO = new FileOperations();
                     FO.addOneToData(file1, dir);

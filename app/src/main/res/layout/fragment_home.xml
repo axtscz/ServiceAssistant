@@ -12,21 +12,22 @@
 
     <ScrollView
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:id="@+id/scrollView2" >
 
         <RelativeLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="1000sp">
 
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:id="@+id/linearLayout"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:weightSum="1">
+                android:layout_alignParentStart="true">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -125,37 +126,55 @@
                         android:progressDrawable="@drawable/circular_progress_bar"
                         android:layout_gravity="center_horizontal" />
 
+
                 </LinearLayout>
-
-                <Button
-                    style="?android:attr/buttonStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="History"
-                    android:id="@+id/button"
-                    android:layout_alignParentTop="true"
-                    android:layout_centerHorizontal="true"
-                    android:onClick="goHistory" />
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Drawer"
-                    android:id="@+id/button2"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginTop="137dp"
-                    android:onClick="goDrawer"/>
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="0"
+                android:id="@+id/magazineCounter"
+                android:textSize="50dp"
+                android:layout_marginTop="79dp"
+                android:layout_below="@+id/linearLayout"
+                android:layout_alignRight="@+id/maglabel"
+                android:layout_alignEnd="@+id/maglabel" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/magazinelabel"
+                android:id="@+id/maglabel"
+                android:layout_below="@+id/magazineCounter"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="0"
+                android:id="@+id/rvcounter"
+                android:textSize="50dp"
+                android:layout_marginLeft="115dp"
+                android:layout_above="@+id/rvlabel"
+                android:layout_toRightOf="@+id/magazineCounter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/rvlabel"
+                android:id="@+id/rvlabel"
+                android:layout_below="@+id/magazineCounter"
+                android:layout_alignLeft="@+id/rvcounter"
+                android:layout_alignStart="@+id/rvcounter" />
+
         </RelativeLayout>
-
-
-
-
-
     </ScrollView>
 
 </RelativeLayout>

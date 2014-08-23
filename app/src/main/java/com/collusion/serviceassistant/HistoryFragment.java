@@ -7,8 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -46,6 +48,7 @@ public class HistoryFragment extends Fragment {
         FileOperations FO = new FileOperations();
         ArrayList<String> TitlesList = new ArrayList<String>();
         ArrayList<String> dataList = new ArrayList<String>();
+        ArrayList<String> filenameList = new ArrayList<String>();
         List<String> files = FO.getFileList(file2);
         Integer lengthFiles = files.size();
         Log.i("INFOHistory", String.valueOf(lengthFiles));
@@ -62,6 +65,7 @@ public class HistoryFragment extends Fragment {
             TitleMonth = getMonth(month1);
             Log.i("INFOHistory", TitleMonth);
             String Title = TitleMonth + " " + TitleYear;
+            filenameList.add(filename);
             TitlesList.add(Title);
             dataList.add(datatxt);
             i++;
@@ -70,11 +74,31 @@ public class HistoryFragment extends Fragment {
         TitlesList.toArray(TitlesArray);
         String[] dataArray = new String[dataList.size()];
         dataList.toArray(dataArray);
+        String[] filesArray = new String[filenameList.size()];
+        filenameList.toArray(filesArray);
         CustomList adapter = new
-                CustomList(getActivity(), TitlesArray, dataArray);
+                CustomList(getActivity(), TitlesArray, dataArray, filesArray);
         list = (ListView)getView().findViewById(R.id.listView);
         list.setAdapter(adapter);
+        list.setClickable(true);
+        View view = getView();
     }
+
+    public void onListItemClick(View view) {
+        TextView tv = (TextView)view.findViewById(R.id.month);
+        CharSequence month = tv.getText();
+        String monthStr = month.toString();
+        Log.i("MONTH", monthStr);
+    }
+
+    View.OnClickListener listViewItemClick = new View.OnClickListener() {
+        public void onClick(View view) {
+            TextView tv = (TextView)view.findViewById(R.id.month);
+            CharSequence month = tv.getText();
+            String monthStr = month.toString();
+            Log.i("MONTH", monthStr);
+        }
+    };
 
     public String getMonth(String month1)
     {

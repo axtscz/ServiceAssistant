@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.collusion.serviceassistant.NavDrawerListAdapter;
 import com.collusion.serviceassistant.NavDrawerItem;
@@ -226,5 +227,12 @@ public class MainActivity extends Activity {
 		// Pass any configuration change to the drawer toggls
 		mDrawerToggle.onConfigurationChanged(newConfig);
 	}
+
+    public void onListItemClick(View view) {
+        TextView tv = (TextView)view.findViewById(R.id.filename);
+        CharSequence month = tv.getText();
+        String monthStr = month.toString();
+        Log.i("MONTH", monthStr);
+    }
 
 }
