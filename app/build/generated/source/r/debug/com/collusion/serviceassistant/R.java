@@ -939,26 +939,27 @@ containing a value of this type.
         public static final int abc_textfield_searchview_right_holo_light=0x7f020056;
         public static final int circular_progress_bar=0x7f020057;
         public static final int counter_bg=0x7f020058;
-        public static final int ic_communities=0x7f020059;
-        public static final int ic_drawer=0x7f02005a;
-        public static final int ic_history=0x7f02005b;
-        public static final int ic_history64=0x7f02005c;
-        public static final int ic_home=0x7f02005d;
-        public static final int ic_launcher=0x7f02005e;
-        public static final int ic_pages=0x7f02005f;
-        public static final int ic_people=0x7f020060;
-        public static final int ic_photos=0x7f020061;
-        public static final int ic_tractcounter64=0x7f020062;
-        public static final int ic_whats_hot=0x7f020063;
-        public static final int jwt2=0x7f020064;
-        public static final int jwt3=0x7f020065;
-        public static final int jwt4=0x7f020066;
-        public static final int jwt5=0x7f020067;
-        public static final int jwt6=0x7f020068;
-        public static final int jwtract=0x7f020069;
-        public static final int list_item_bg_normal=0x7f02006a;
-        public static final int list_item_bg_pressed=0x7f02006b;
-        public static final int list_selector=0x7f02006c;
+        public static final int ic_action_share=0x7f020059;
+        public static final int ic_communities=0x7f02005a;
+        public static final int ic_drawer=0x7f02005b;
+        public static final int ic_history=0x7f02005c;
+        public static final int ic_history64=0x7f02005d;
+        public static final int ic_home=0x7f02005e;
+        public static final int ic_launcher=0x7f02005f;
+        public static final int ic_pages=0x7f020060;
+        public static final int ic_people=0x7f020061;
+        public static final int ic_photos=0x7f020062;
+        public static final int ic_tractcounter64=0x7f020063;
+        public static final int ic_whats_hot=0x7f020064;
+        public static final int jwt2=0x7f020065;
+        public static final int jwt3=0x7f020066;
+        public static final int jwt4=0x7f020067;
+        public static final int jwt5=0x7f020068;
+        public static final int jwt6=0x7f020069;
+        public static final int jwtract=0x7f02006a;
+        public static final int list_item_bg_normal=0x7f02006b;
+        public static final int list_item_bg_pressed=0x7f02006c;
+        public static final int list_selector=0x7f02006d;
     }
     public static final class id {
         public static final int GoalBar=0x7f08004d;
@@ -1032,7 +1033,7 @@ containing a value of this type.
         public static final int progress_circular=0x7f080018;
         public static final int progress_horizontal=0x7f080019;
         public static final int radio=0x7f08002f;
-        public static final int reset=0x7f080064;
+        public static final int reset=0x7f080065;
         public static final int rvcounter=0x7f080050;
         public static final int rvlabel=0x7f080051;
         public static final int saveButton=0x7f08005e;
@@ -1048,6 +1049,7 @@ containing a value of this type.
         public static final int search_plate=0x7f080036;
         public static final int search_src_text=0x7f080037;
         public static final int search_voice_btn=0x7f08003b;
+        public static final int share=0x7f080064;
         public static final int shortcut=0x7f08002e;
         public static final int showCustom=0x7f080007;
         public static final int showHome=0x7f080004;
@@ -1108,8 +1110,9 @@ containing a value of this type.
     }
     public static final class menu {
         public static final int details_page=0x7f0d0000;
-        public static final int home_menu=0x7f0d0001;
-        public static final int main=0x7f0d0002;
+        public static final int detailsmenu=0x7f0d0001;
+        public static final int home_menu=0x7f0d0002;
+        public static final int main=0x7f0d0003;
     }
     public static final class string {
         public static final int CancelButton=0x7f0b0000;
@@ -1117,30 +1120,31 @@ containing a value of this type.
         public static final int HourCountLabel=0x7f0b0002;
         public static final int Hours=0x7f0b0003;
         public static final int SetAGoalButton=0x7f0b0004;
-        public static final int abc_action_bar_home_description=0x7f0b0005;
-        public static final int abc_action_bar_up_description=0x7f0b0006;
-        public static final int abc_action_menu_overflow_description=0x7f0b0007;
-        public static final int abc_action_mode_done=0x7f0b0008;
-        public static final int abc_activity_chooser_view_see_all=0x7f0b0009;
-        public static final int abc_activitychooserview_choose_application=0x7f0b000a;
-        public static final int abc_searchview_description_clear=0x7f0b000b;
-        public static final int abc_searchview_description_query=0x7f0b000c;
-        public static final int abc_searchview_description_search=0x7f0b000d;
-        public static final int abc_searchview_description_submit=0x7f0b000e;
-        public static final int abc_searchview_description_voice=0x7f0b000f;
-        public static final int abc_shareactionprovider_share_with=0x7f0b0010;
-        public static final int abc_shareactionprovider_share_with_application=0x7f0b0011;
-        public static final int action_settings=0x7f0b0012;
-        public static final int app_name=0x7f0b0013;
-        public static final int desc_list_item_icon=0x7f0b0014;
-        public static final int drawer_close=0x7f0b0015;
-        public static final int drawer_open=0x7f0b0016;
-        public static final int hello_world=0x7f0b0017;
-        public static final int magazinelabel=0x7f0b0018;
-        public static final int resetMenu=0x7f0b0019;
-        public static final int rvlabel=0x7f0b001a;
-        public static final int saveButton=0x7f0b001b;
-        public static final int title_activity_details_page=0x7f0b001c;
+        public static final int Share=0x7f0b0005;
+        public static final int abc_action_bar_home_description=0x7f0b0006;
+        public static final int abc_action_bar_up_description=0x7f0b0007;
+        public static final int abc_action_menu_overflow_description=0x7f0b0008;
+        public static final int abc_action_mode_done=0x7f0b0009;
+        public static final int abc_activity_chooser_view_see_all=0x7f0b000a;
+        public static final int abc_activitychooserview_choose_application=0x7f0b000b;
+        public static final int abc_searchview_description_clear=0x7f0b000c;
+        public static final int abc_searchview_description_query=0x7f0b000d;
+        public static final int abc_searchview_description_search=0x7f0b000e;
+        public static final int abc_searchview_description_submit=0x7f0b000f;
+        public static final int abc_searchview_description_voice=0x7f0b0010;
+        public static final int abc_shareactionprovider_share_with=0x7f0b0011;
+        public static final int abc_shareactionprovider_share_with_application=0x7f0b0012;
+        public static final int action_settings=0x7f0b0013;
+        public static final int app_name=0x7f0b0014;
+        public static final int desc_list_item_icon=0x7f0b0015;
+        public static final int drawer_close=0x7f0b0016;
+        public static final int drawer_open=0x7f0b0017;
+        public static final int hello_world=0x7f0b0018;
+        public static final int magazinelabel=0x7f0b0019;
+        public static final int resetMenu=0x7f0b001a;
+        public static final int rvlabel=0x7f0b001b;
+        public static final int saveButton=0x7f0b001c;
+        public static final int title_activity_details_page=0x7f0b001d;
     }
     public static final class style {
         /** 

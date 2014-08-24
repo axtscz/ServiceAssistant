@@ -3,6 +3,7 @@ package com.collusion.serviceassistant;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -233,6 +234,12 @@ public class MainActivity extends Activity {
         CharSequence month = tv.getText();
         String monthStr = month.toString();
         Log.i("MONTH", monthStr);
+        Intent intent = new Intent(MainActivity.this, DetailsPage.class);
+        Bundle b = new Bundle();
+        b.putString("filename", monthStr); //Your id
+        intent.putExtras(b); //Put your id to your next Intent
+        startActivity(intent);
+        finish();
     }
 
 }

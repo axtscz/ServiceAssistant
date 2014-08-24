@@ -40,5 +40,6 @@
     <string name="title_activity_details_page">DetailsPage</string>
     <string name="magazinelabel">Magazines</string>
     <string name="rvlabel">Return Visits</string>
+    <string name="Share">Share</string>
 
 </resources>

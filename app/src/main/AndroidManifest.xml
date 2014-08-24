@@ -28,7 +28,11 @@
         </activity>
         <activity
             android:name=".DetailsPage"
-            android:label="@string/title_activity_details_page" >
+            android:label="@string/title_activity_details_page"
+            android:parentActivityName="com.collusion.serviceassistant.MainActivity" >>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.collusion.srviceassistant.MainActivity"/>
         </activity>
     </application>
 
