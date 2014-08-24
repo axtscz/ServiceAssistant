@@ -231,12 +231,17 @@ public class MainActivity extends Activity {
 
     public void onListItemClick(View view) {
         TextView tv = (TextView)view.findViewById(R.id.filename);
+        TextView textview = (TextView)view.findViewById(R.id.month);
         CharSequence month = tv.getText();
         String monthStr = month.toString();
+        CharSequence month1 = textview.getText();
+        String monthStr1 = month1.toString();
+
         Log.i("MONTH", monthStr);
         Intent intent = new Intent(MainActivity.this, DetailsPage.class);
         Bundle b = new Bundle();
-        b.putString("filename", monthStr); //Your id
+        b.putString("filename", monthStr);
+        b.putString("month", monthStr1);//Your id
         intent.putExtras(b); //Put your id to your next Intent
         startActivity(intent);
         finish();

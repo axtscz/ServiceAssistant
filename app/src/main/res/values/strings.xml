@@ -41,5 +41,6 @@
     <string name="magazinelabel">Magazines</string>
     <string name="rvlabel">Return Visits</string>
     <string name="Share">Share</string>
+    <string name="bookLabel">Books</string>
 
 </resources>

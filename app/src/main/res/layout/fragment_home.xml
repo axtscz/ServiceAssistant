@@ -138,7 +138,7 @@
                 android:text="0"
                 android:id="@+id/magazineCounter"
                 android:textSize="50dp"
-                android:layout_marginTop="79dp"
+                android:layout_marginTop="78dp"
                 android:layout_below="@+id/linearLayout"
                 android:layout_alignRight="@+id/maglabel"
                 android:layout_alignEnd="@+id/maglabel" />
@@ -151,7 +151,8 @@
                 android:id="@+id/maglabel"
                 android:layout_below="@+id/magazineCounter"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="30dp" />
 
             <TextView
                 android:layout_width="wrap_content"
