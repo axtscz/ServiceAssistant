@@ -70,10 +70,6 @@ public class DetailsPage extends ActionBarActivity{
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
-            case R.id.share :
-                share();
-                return true;
-
             case R.id.home:
                 Log.i("BACK", "Going back!");
                 Intent upIntent = NavUtils.getParentActivityIntent(this);
@@ -92,14 +88,39 @@ public class DetailsPage extends ActionBarActivity{
                     NavUtils.navigateUpTo(this, upIntent);
                 }
                 return true;
+            case R.id.share :
+                share();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     public void share(){
         Intent sendIntent = new Intent();
+        TextView tv = (TextView) findViewById(R.id.hourData);
+        TextView tvmags = (TextView) findViewById(R.id.magazineData);
+        TextView tvrvs = (TextView) findViewById(R.id.RVData);
+        TextView tvbooks = (TextView) findViewById(R.id.BookData);
+
+        CharSequence hours = tv.getText();
+        CharSequence mags = tvmags.getText();
+        CharSequence rvs = tvrvs.getText();
+        CharSequence books = tvbooks.getText();
+
+        String hoursStr = hours.toString();
+        String magsStr = mags.toString();
+        String rvsStr = rvs.toString();
+        String booksStr = books.toString();
+
+
+
+
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "Hey guys!");
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "My field service report: " + "\n" +
+                                                "Hours: " + hoursStr + "\n" +
+                                                "Magazines: " + magsStr + "\n" +
+                                                "Return Visits: " + rvsStr + "\n" +
+                                                "Books: " + booksStr);
         sendIntent.setType("text/plain");
         startActivity(sendIntent);
     }

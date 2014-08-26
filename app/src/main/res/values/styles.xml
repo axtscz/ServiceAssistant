@@ -17,4 +17,62 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="Theme.Serviceasistant" parent="@android:style/Theme.Holo.Light">
+        <item name="android:actionBarItemBackground">@drawable/selectable_background_serviceasistant</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Serviceasistant</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Serviceasistant</item>
+        <item name="android:actionBarTabStyle">@style/ActionBarTabStyle.Serviceasistant</item>
+        <item name="android:actionDropDownStyle">@style/DropDownNav.Serviceasistant</item>
+        <item name="android:actionBarStyle">@style/ActionBar.Solid.Serviceasistant</item>
+        <item name="android:actionModeBackground">@drawable/cab_background_top_serviceasistant</item>
+        <item name="android:actionModeSplitBackground">@drawable/cab_background_bottom_serviceasistant</item>
+        <item name="android:actionModeCloseButtonStyle">@style/ActionButton.CloseMode.Serviceasistant</item>
+
+
+    </style>
+
+    <style name="ActionBar.Solid.Serviceasistant" parent="@android:style/Widget.Holo.Light.ActionBar.Solid">
+        <item name="android:background">@drawable/ab_background_textured_serviceasistant</item>
+        <item name="android:backgroundStacked">@drawable/ab_stacked_solid_serviceasistant</item>
+        <item name="android:backgroundSplit">@drawable/ab_background_textured_serviceasistant</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Serviceasistant</item>
+    </style>
+
+    <style name="ActionBar.Transparent.Serviceasistant" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@drawable/ab_transparent_serviceasistant</item>
+        <item name="android:progressBarStyle">@style/ProgressBar.Serviceasistant</item>
+    </style>
+
+    <style name="PopupMenu.Serviceasistant" parent="@android:style/Widget.Holo.Light.ListPopupWindow">
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_serviceasistant</item>
+    </style>
+
+    <style name="DropDownListView.Serviceasistant" parent="@android:style/Widget.Holo.Light.ListView.DropDown">
+        <item name="android:listSelector">@drawable/selectable_background_serviceasistant</item>
+    </style>
+
+    <style name="ActionBarTabStyle.Serviceasistant" parent="@android:style/Widget.Holo.Light.ActionBar.TabView">
+        <item name="android:background">@drawable/tab_indicator_ab_serviceasistant</item>
+    </style>
+
+    <style name="DropDownNav.Serviceasistant" parent="@android:style/Widget.Holo.Light.Spinner">
+        <item name="android:background">@drawable/spinner_background_ab_serviceasistant</item>
+        <item name="android:popupBackground">@drawable/menu_dropdown_panel_serviceasistant</item>
+        <item name="android:dropDownSelector">@drawable/selectable_background_serviceasistant</item>
+    </style>
+
+    <style name="ProgressBar.Serviceasistant" parent="@android:style/Widget.Holo.Light.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progress_horizontal_serviceasistant</item>
+    </style>
+
+    <style name="ActionButton.CloseMode.Serviceasistant" parent="@android:style/Widget.Holo.Light.ActionButton.CloseMode">
+        <item name="android:background">@drawable/btn_cab_done_serviceasistant</item>
+    </style>
+
+    <!-- this style is only referenced in a Light.DarkActionBar based theme -->
+    <style name="Theme.Serviceasistant.Widget" parent="@android:style/Theme.Holo">
+        <item name="android:popupMenuStyle">@style/PopupMenu.Serviceasistant</item>
+        <item name="android:dropDownListViewStyle">@style/DropDownListView.Serviceasistant</item>
+    </style>
+
 </resources>

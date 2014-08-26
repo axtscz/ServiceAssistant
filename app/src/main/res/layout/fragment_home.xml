@@ -175,6 +175,49 @@
                 android:layout_alignLeft="@+id/rvcounter"
                 android:layout_alignStart="@+id/rvcounter" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="0"
+                android:id="@+id/brochureCounter"
+                android:layout_marginTop="42dp"
+                android:textSize="50dp"
+                android:layout_below="@+id/maglabel"
+                android:layout_alignRight="@+id/maglabel"
+                android:layout_alignEnd="@+id/maglabel" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/brochures"
+                android:id="@+id/brochureLabel"
+                android:layout_below="@+id/brochureCounter"
+                android:layout_alignRight="@+id/brochureCounter"
+                android:layout_alignEnd="@+id/brochureCounter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="0"
+                android:id="@+id/bookCounter"
+                android:textSize="50dp"
+                android:layout_alignBottom="@+id/brochureCounter"
+                android:layout_alignLeft="@+id/rvlabel"
+                android:layout_alignStart="@+id/rvlabel" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/Books"
+                android:id="@+id/bookLabel"
+                android:layout_alignTop="@+id/brochureLabel"
+                android:layout_alignLeft="@+id/bookCounter"
+                android:layout_alignStart="@+id/bookCounter" />
+
         </RelativeLayout>
     </ScrollView>
 

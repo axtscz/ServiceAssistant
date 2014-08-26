@@ -42,5 +42,7 @@
     <string name="rvlabel">Return Visits</string>
     <string name="Share">Share</string>
     <string name="bookLabel">Books</string>
+    <string name="brochures">Brochures</string>
+    <string name="Books">Books</string>
 
 </resources>

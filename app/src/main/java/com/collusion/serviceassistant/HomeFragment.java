@@ -99,6 +99,10 @@ public class HomeFragment extends Fragment {
         mags.setOnClickListener(tapAddMags);
         TextView rvs = (TextView)getView().findViewById(R.id.rvcounter);
         rvs.setOnClickListener(tapAddrvs);
+        TextView books = (TextView)getView().findViewById(R.id.bookCounter);
+        books.setOnClickListener(tapAddBooks);
+        TextView bros = (TextView)getView().findViewById(R.id.brochureCounter);
+        bros.setOnClickListener(tapAddBros);
 
         alarmDeterminate();
 
@@ -106,6 +110,8 @@ public class HomeFragment extends Fragment {
 
         magUpdater();
         rvUpdater();
+        bookUpdater();
+        broUpdater();
 
 
     }
@@ -117,7 +123,7 @@ public class HomeFragment extends Fragment {
         TextView tv = (TextView) getView().findViewById(elementID);
         tv.setText(data);
     }
-
+//TODO: Write this method to the DateOperations and FileOperations class
     private void createFiles() {
         Calendar cal = Calendar.getInstance();
         int currentMonth = cal.get(Calendar.MONTH) + 1;
@@ -203,6 +209,36 @@ public class HomeFragment extends Fragment {
         }
 
     };
+    View.OnClickListener tapAddBros = new View.OnClickListener() {
+        public void onClick(View v) {
+            DateOperations DO = new DateOperations();
+            String CurrentMonthFilePath = DO.getdateFile();
+            File root = android.os.Environment.getExternalStorageDirectory();
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/", CurrentMonthFilePath + "bro.txt");
+            String dir = "/ServiceAssistant/OtherStats/";
+            int elementid = R.id.brochureCounter;
+
+            FileOperations FO = new FileOperations();
+            FO.addOneToData(file1, dir);
+            updateUIElement(file1, elementid);
+        }
+
+    };
+    View.OnClickListener tapAddBooks = new View.OnClickListener() {
+        public void onClick(View v) {
+            DateOperations DO = new DateOperations();
+            String CurrentMonthFilePath = DO.getdateFile();
+            File root = android.os.Environment.getExternalStorageDirectory();
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/", CurrentMonthFilePath + "book.txt");
+            String dir = "/ServiceAssistant/OtherStats/";
+            int elementid = R.id.bookCounter;
+
+            FileOperations FO = new FileOperations();
+            FO.addOneToData(file1, dir);
+            updateUIElement(file1, elementid);
+        }
+
+    };
 
     public void magUpdater()
     {
@@ -229,6 +265,29 @@ public class HomeFragment extends Fragment {
         FileOperations FO = new FileOperations();
         updateUIElement(file1, elementid);
     }
+
+    public void broUpdater()
+    {
+        DateOperations DO = new DateOperations();
+        String CurrentMonthFilePath = DO.getdateFile();
+        File root = android.os.Environment.getExternalStorageDirectory();
+        java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/", CurrentMonthFilePath + "bro.txt");
+        int elementid = R.id.brochureCounter;
+
+        updateUIElement(file1, elementid);
+    }
+    public void bookUpdater()
+    {
+        DateOperations DO = new DateOperations();
+        String CurrentMonthFilePath = DO.getdateFile();
+        File root = android.os.Environment.getExternalStorageDirectory();
+        java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/", CurrentMonthFilePath + "book.txt");
+        int elementid = R.id.bookCounter;
+
+        updateUIElement(file1, elementid);
+    }
+
+
 
     View.OnClickListener tapAdd = new View.OnClickListener() {
         public void onClick(View v) {
@@ -412,6 +471,7 @@ public class HomeFragment extends Fragment {
     }
     */
     // File Access
+    //TODO: Calendar fixes
     void reset()
     {
 
@@ -488,7 +548,7 @@ public class HomeFragment extends Fragment {
         progressBarUpdate(goalNum);
 
     }
-    //FileAccess
+    //TODO: Calendar fixes
     void progressBarUpdate(Integer goalNum)
     {
         Calendar cal = Calendar.getInstance();
@@ -557,13 +617,9 @@ public class HomeFragment extends Fragment {
         else
         {
             String CurrentMonthFilePath = "0" + Integer.toString(currentMonth) + Integer.toString(currentYear);
-            //Log.i("INFO", CurrentMonthFilePath);
             File root = android.os.Environment.getExternalStorageDirectory();
             java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/", CurrentMonthFilePath + ".txt");
-
             FileOperations FO = new FileOperations();
-
-
             Integer mId = 001;
 
             ProgressBar pb = (ProgressBar) getView().findViewById(R.id.GoalBar);
@@ -583,42 +639,5 @@ public class HomeFragment extends Fragment {
             }
         }
     }
-    //File Access
-    /*public void tapAdd() {
-        Calendar cal = Calendar.getInstance();
-        int currentMonth = cal.get(Calendar.MONTH) + 1;
-        int currentYear = cal.get(Calendar.YEAR);
-        int currentDay = cal.get(Calendar.DAY_OF_MONTH);
-        Log.i("INFO", Integer.toString(currentYear));
-        if (currentMonth > 9) {
-            String CurrentMonthFilePath = Integer.toString(currentMonth) + Integer.toString(currentYear);
-            Log.i("INFO", "adding!");
-            File root = android.os.Environment.getExternalStorageDirectory();
-            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/", CurrentMonthFilePath + ".txt");
-            String dir = "/ServiceAssistant/";
-
-            FileOperations FO = new FileOperations();
-            FO.addOneToData(file1, dir);
-            FO.getOldData(file1);
-            setHoursLabel();
-            getPrefs();
-        }
-        else
-        {
-            String CurrentMonthFilePath = "0" + Integer.toString(currentMonth) + Integer.toString(currentYear);
-            Log.i("INFO", "Adding!");
-            File root = android.os.Environment.getExternalStorageDirectory();
-            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/", CurrentMonthFilePath + ".txt");
-            String dir = "/ServiceAssistant/";
-
-            FileOperations FO = new FileOperations();
-            FO.addOneToData(file1, dir);
-            FO.getOldData(file1);
-            setHoursLabel();
-            getPrefs();
-        }
-
-    }
-    */
 }
 
