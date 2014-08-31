@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.collusion.serviceassistant.R;
+import com.dropbox.sync.android.DbxAccountManager;
 
 import org.w3c.dom.Text;
 
@@ -23,30 +24,44 @@ public class DetailsPage extends ActionBarActivity{
     Integer elementID2 = R.id.magazineData;
     Integer elementID3 = R.id.RVData;
     Integer elementID4 = R.id.BookData;
+    Activity a;
+
+    DbxAccountManager mDbxAcctMgr;
+    private static final String APP_SECRET = "29dhk340mmpecsj";
+    private static final String APP_KEY = "wup7j5haihrzc11" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_page);
+        a = this.getParent();
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
+
+        DateOperations DO = new DateOperations();
+        String CurrentMonthFilePath = DO.getdateFile();
 
         Bundle b = getIntent().getExtras();
         String value = b.getString("filename");
         String month = b.getString("month");
+        String hours = b.getString("hours");
+        Log.i("INFO", hours.toString());
         String filename = value.substring(0,6);
         Log.i("DETAILS", filename);
         File root = android.os.Environment.getExternalStorageDirectory();
-        java.io.File filemags = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/" , filename + "mags.txt");
-        java.io.File filervs = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/" , filename + "rvs.txt");
-        java.io.File filebook = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/" , filename + "book.txt");
-        java.io.File filehours = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" , filename + ".txt");
+        java.io.File filemags = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ CurrentMonthFilePath+"/" , filename + "mags.txt");
+        java.io.File filervs = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ CurrentMonthFilePath+"/", filename + "revs.txt");
+        java.io.File filebook = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ CurrentMonthFilePath+"/", filename + "book.txt");
+        java.io.File filehours = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ CurrentMonthFilePath+"/", filename + "hour.txt");
 
 
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView tv = (TextView) findViewById(R.id.Title);
         tv.setText(month);
+
+        TextView tv2 = (TextView) findViewById(R.id.hourData);
+        tv2.setText(hours);
 
         updateUIElement(filemags,elementID2);
         updateUIElement(filervs,elementID3);
@@ -73,20 +88,7 @@ public class DetailsPage extends ActionBarActivity{
             case R.id.home:
                 Log.i("BACK", "Going back!");
                 Intent upIntent = NavUtils.getParentActivityIntent(this);
-                if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-                    // This activity is NOT part of this app's task, so create a new
-                    // task
-                    // when navigating up, with a synthesized back stack.
-                    TaskStackBuilder.create(this)
-                            // Add all of this activity's parents to the back stack
-                            .addNextIntentWithParentStack(upIntent)
-                                    // Navigate up to the closest parent
-                            .startActivities();
-                } else {
-                    // This activity is part of this app's task, so simply
-                    // navigate up to the logical parent activity.
-                    NavUtils.navigateUpTo(this, upIntent);
-                }
+                NavUtils.navigateUpFromSameTask(this);
                 return true;
             case R.id.share :
                 share();
@@ -128,7 +130,7 @@ public class DetailsPage extends ActionBarActivity{
     public void updateUIElement(File file1, Integer elementID)
     {
         FileOperations FO = new FileOperations();
-        String data = FO.getOldData(file1);
+        String data = FO.getOldData(file1, mDbxAcctMgr);
         TextView tv = (TextView) findViewById(elementID);
         tv.setText(data);
     }

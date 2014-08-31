@@ -44,5 +44,10 @@
     <string name="bookLabel">Books</string>
     <string name="brochures">Brochures</string>
     <string name="Books">Books</string>
+    <string name="old_record_deletion">Old Record Deletion</string>
+    <string name="old_record_deletion_desc">If enabled, the app will automatically delete records that more than 12 months old</string>
+    <string name="auto_sync">Auto-Sync</string>
+    <string name="colors">Choose a color</string>
+    <string name="customization">Customization</string>
 
 </resources>

@@ -1,5 +1,7 @@
 package com.collusion.serviceassistant;
 
+import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -14,6 +16,8 @@ import java.util.List;
 
 
 import android.util.Log;
+
+import com.dropbox.sync.android.DbxAccountManager;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -31,11 +35,10 @@ import java.util.List;
  */
 public class FileOperations
 {
-    public java.io.File addOneToData(File file1, String dirname)
+    public java.io.File addOneToData(File file1, String dirname, DbxAccountManager dbxAccountManager)
     {
         if (file1.exists()){
-
-            String oldData = getOldData(file1);
+            String oldData = getOldData(file1, dbxAccountManager);
             Log.i("Data", oldData);
             Integer oldDataInt = Integer.parseInt(oldData);
             Integer newData = 1 + oldDataInt;
@@ -83,13 +86,27 @@ public class FileOperations
         return file1;
     }
 
-    public String getOldData(File Datafile)
+    public String getOldData(File Datafile,  DbxAccountManager dbxAccountManager)
     {
         try{
+            String fullfile = Datafile.toString();
+            DateOperations DO = new DateOperations();
+            String filename = DO.getdateFile();
             BufferedReader br = new BufferedReader(new FileReader(Datafile));
             String line = br.readLine();
             Log.i("INFO", line);
             String data = line;
+            /*if (dbxAccountManager != null) {
+                Log.i("DBX", "Not null");
+                if (dbxAccountManager.hasLinkedAccount() == true)
+                {
+                    Log.i("DBX", "Linked!");
+                    DBXM.uploadNumberFile(filename, data, dbxAccountManager, fullfile);
+                }
+            }*/
+            //else {
+            //    Log.i("DBX", "Null");
+            //}
             return data;
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -152,5 +169,47 @@ public class FileOperations
             }
         }
         return filelist;
+    }
+
+    public List<String> getFolderList(String dirname)
+    {
+        List<String> filelist = new ArrayList<String>();
+        String files;
+        String filename;
+        File folder = new File(dirname);
+        File[] listOfFiles = folder.listFiles();
+        Log.i("FOLDERS", listOfFiles.toString());
+
+        for (int i = 0; i < listOfFiles.length; i++)
+        {
+
+            if (listOfFiles[i].isDirectory())
+            {
+                filename = listOfFiles[i].toString();
+                Integer len = filename.length();
+                Integer start = len - 6;
+                filename = filename.substring(start,len);
+                Log.i("FILENAME", filename);
+                filelist.add(filename);
+            }
+        }
+        return filelist;
+    }
+
+    public void reset(File file1)
+    {
+        try {
+            FileOutputStream f = new FileOutputStream(file1);
+            PrintWriter pw = new PrintWriter(f);
+            pw.print("0");
+            pw.flush();
+            pw.close();
+            f.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            Log.i("INFO", "File not found. Did you add a WRITE_EXTERNAL_STORAGE permission to the manifest?");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

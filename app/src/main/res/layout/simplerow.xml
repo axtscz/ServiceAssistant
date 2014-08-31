@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#ff7ccaae"
+    android:background="@drawable/card_layout"
     android:onClick="onListItemClick">
-
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:id="@+id/month"
+        android:text="Month"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="Month" />
+        android:layout_alignLeft="@+id/data"
+        android:layout_alignStart="@+id/data" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,7 +24,8 @@
         android:id="@+id/data"
         android:layout_below="@+id/month"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="15dp" />
 
     <TextView
         android:layout_width="wrap_content"

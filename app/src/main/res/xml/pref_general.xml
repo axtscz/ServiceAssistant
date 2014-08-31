@@ -1,0 +1,10 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="delete_old"
+        android:title="@string/old_record_deletion"
+        android:summary="@string/old_record_deletion_desc"
+        android:defaultValue="false" />
+
+
+</PreferenceScreen>

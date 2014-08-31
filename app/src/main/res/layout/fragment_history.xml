@@ -17,6 +17,9 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:clickable="true"
+        android:background="@drawable/card_layout"
+        android:divider="#ff7ccaae"
+        android:dividerHeight="5dp"
         />
 
 </RelativeLayout>

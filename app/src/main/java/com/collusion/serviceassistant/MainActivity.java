@@ -16,9 +16,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import com.dropbox.*;
 
 import com.collusion.serviceassistant.NavDrawerListAdapter;
 import com.collusion.serviceassistant.NavDrawerItem;
+import com.dropbox.sync.android.DbxAccountManager;
 
 import java.util.ArrayList;
 
@@ -39,6 +41,8 @@ public class MainActivity extends Activity {
 
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
+
+    private DbxAccountManager mDbxAcctMgr;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -141,6 +145,8 @@ public class MainActivity extends Activity {
 		// Handle action bar actions click
 		switch (item.getItemId()) {
 		case R.id.action_settings:
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -229,19 +235,40 @@ public class MainActivity extends Activity {
     public void onListItemClick(View view) {
         TextView tv = (TextView)view.findViewById(R.id.filename);
         TextView textview = (TextView)view.findViewById(R.id.month);
+        TextView hours = (TextView)view.findViewById(R.id.data);
         CharSequence month = tv.getText();
         String monthStr = month.toString();
         CharSequence month1 = textview.getText();
         String monthStr1 = month1.toString();
+        CharSequence hours1 = hours.getText();
+        String hoursStr1 = hours.toString();
 
-        Log.i("MONTH", monthStr);
+        Log.i("HOURS", hoursStr1);
         Intent intent = new Intent(MainActivity.this, DetailsPage.class);
         Bundle b = new Bundle();
         b.putString("filename", monthStr);
         b.putString("month", monthStr1);//Your id
+        b.putString("hours", hoursStr1);//Your id
         intent.putExtras(b); //Put your id to your next Intent
         startActivity(intent);
         finish();
+    }
+
+    public void onClick(View v) {
+        mDbxAcctMgr.startLink((Activity)this, 0);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0) {
+            if (resultCode == Activity.RESULT_OK) {
+                // ... Start using Dropbox files.
+            } else {
+                // ... Link failed or was cancelled by the user.
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
 }

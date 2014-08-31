@@ -1,5 +1,6 @@
 package com.collusion.serviceassistant;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.Fragment;
@@ -10,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,9 +22,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.dropbox.sync.android.DbxAccountManager;
+import com.dropbox.sync.android.DbxException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,8 +34,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Calendar;
+import java.util.List;
 
 public class HomeFragment extends Fragment {
+    private static final String APP_SECRET = "29dhk340mmpecsj";
+    private static final String APP_KEY = "wup7j5haihrzc11" ;
     private View myFragmentView;
     Integer elementID1 = R.id.magazineCounter;
     Integer elementID2 = R.id.jwt2counter;
@@ -39,8 +46,9 @@ public class HomeFragment extends Fragment {
     Integer elementID4 = R.id.jwt4counter;
     Integer elementID5 = R.id.jwt5counter;
     Integer elementID6 = R.id.jwt6counter;
-
-
+    DbxAccountManager mDbxAcctMgr;
+    Context thiscontext;
+    Activity a;
 	public HomeFragment(){}
 	
 	@Override
@@ -49,6 +57,8 @@ public class HomeFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
         setHasOptionsMenu(true);
+        thiscontext = container.getContext();
+        a = this.getActivity();
         return rootView;
     }
 
@@ -61,7 +71,7 @@ public class HomeFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.reset:
-                reset();
+                newReset();
                 return false;
             //case R.id.fragment_menu_item:
                 // Do Fragment menu item stuff here
@@ -75,96 +85,95 @@ public class HomeFragment extends Fragment {
 
     public void onViewCreated(View view, Bundle savedInstanceState)
     {
-        View v = this.getView();
-        SharedPreferences sharedPrefs = this.getActivity().getSharedPreferences("GoalSettings", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = this.getActivity().getSharedPreferences("GoalSettings", Context.MODE_PRIVATE).edit();
+        newFileMethods();
+        View v = getView();
+        SharedPreferences sharedPrefs = getActivity().getSharedPreferences("GoalSettings", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = getActivity().getSharedPreferences("GoalSettings", Context.MODE_PRIVATE).edit();
 
-
+        boolean trueorfalse = PreferenceManager.getDefaultSharedPreferences(getActivity())
+                .getBoolean("auto_sync", false);
 
         if (sharedPrefs.getInt("Goal", -1) == -1) {
             Log.i("INFO", "NO VALUE< WRITING NEW VALUE TO 0");
             editor.putInt("Goal", 0);
             editor.apply();
+            getPrefs();
         } else {
             String savedGoal = Integer.toString(sharedPrefs.getInt("Goal", -1));
             Log.i("INFO", savedGoal);
             getPrefs();
         }
-        dbCheck();
+
+        newFileMethods();
         TextView tv = (TextView) getView().findViewById(R.id.HourCount);
         tv.setOnClickListener(tapAdd);
         Button button = (Button) getView().findViewById(R.id.goalButton);
         button.setOnClickListener(goalDialogLaunch);
         TextView mags = (TextView)getView().findViewById(R.id.magazineCounter);
         mags.setOnClickListener(tapAddMags);
-        TextView rvs = (TextView)getView().findViewById(R.id.rvcounter);
-        rvs.setOnClickListener(tapAddrvs);
+        TextView revs = (TextView)getView().findViewById(R.id.rvcounter);
+        revs.setOnClickListener(tapAddrevs);
         TextView books = (TextView)getView().findViewById(R.id.bookCounter);
         books.setOnClickListener(tapAddBooks);
         TextView bros = (TextView)getView().findViewById(R.id.brochureCounter);
         bros.setOnClickListener(tapAddBros);
+        Button sync = (Button) getView().findViewById(R.id.button);
+        sync.setOnClickListener(buttonListener);
 
         alarmDeterminate();
 
-        createFiles();
+        newFileMethods();
+        setHoursLabel();
 
         magUpdater();
         rvUpdater();
         bookUpdater();
         broUpdater();
 
+        newFileMethods();
+        getFolder();
 
-    }
+        mDbxAcctMgr = DbxAccountManager.getInstance(getActivity().getApplicationContext(), APP_KEY, APP_SECRET);
 
-    public void updateUIElement(File file1, Integer elementID)
-    {
-        FileOperations FO = new FileOperations();
-        String data = FO.getOldData(file1);
-        TextView tv = (TextView) getView().findViewById(elementID);
-        tv.setText(data);
-    }
-//TODO: Write this method to the DateOperations and FileOperations class
-    private void createFiles() {
-        Calendar cal = Calendar.getInstance();
-        int currentMonth = cal.get(Calendar.MONTH) + 1;
-        int currentYear = cal.get(Calendar.YEAR);
-        int currentDay = cal.get(Calendar.DAY_OF_MONTH);
-        Log.i("INFO", Integer.toString(currentYear));
-        if (currentMonth > 9) {
-            String CurrentMonthFilePath = Integer.toString(currentMonth) + Integer.toString(currentYear);
-            Log.i("INFO", "adding!");
-            File root = android.os.Environment.getExternalStorageDirectory();
-            java.io.File fileMags = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/", CurrentMonthFilePath + "mags" +".txt");
-            java.io.File fileRVS = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/", CurrentMonthFilePath + "rvs" + ".txt");
-            java.io.File fileBooks = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/", CurrentMonthFilePath + "book"+".txt");
-            java.io.File fileBrochures = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/", CurrentMonthFilePath + "bro" + ".txt");
-            String dir = "/ServiceAssistant/OtherStats/";
-
-            FileOperations FO = new FileOperations();
-            FO.createfile(fileMags,dir);
-            FO.createfile(fileRVS,dir);
-            FO.createfile(fileBooks,dir);
-            FO.createfile(fileBrochures,dir);
-
+        if (mDbxAcctMgr.hasLinkedAccount() == true)
+        {
+            Log.i("DBX", "Linked!");
         }
         else
         {
-            String CurrentMonthFilePath = "0"+ Integer.toString(currentMonth) + Integer.toString(currentYear);
-            File root = android.os.Environment.getExternalStorageDirectory();
-            java.io.File fileMags = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/", CurrentMonthFilePath + "mags" +".txt");
-            java.io.File fileRVS = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/", CurrentMonthFilePath + "rvs" + ".txt");
-            java.io.File fileBooks = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/", CurrentMonthFilePath + "book"+".txt");
-            java.io.File fileBrochures = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/", CurrentMonthFilePath + "bro" + ".txt");
-            String dir = "/ServiceAssistant/OtherStats/";
-
-            FileOperations FO = new FileOperations();
-            FO.createfile(fileMags,dir);
-            FO.createfile(fileRVS,dir);
-            FO.createfile(fileBooks,dir);
-            FO.createfile(fileBrochures,dir);
+            mDbxAcctMgr.startLink(a, 0);
+        }
+        if (trueorfalse == true)
+        {
+            try {
+                initialSync();
+                Log.i("SYNC", "Calling auto-sync");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (DbxException e) {
+                e.printStackTrace();
+            }
+        }
+        else
+        {
+            Log.i("SYNC", "No sync");
         }
 
     }
+    //TODO: updateUIElement can stay
+    public void updateUIElement(File file1, Integer elementID)
+    {
+        FileOperations FO = new FileOperations();
+        mDbxAcctMgr = DbxAccountManager.getInstance(getActivity().getApplicationContext(), APP_KEY, APP_SECRET);
+        if (mDbxAcctMgr == null)
+        {
+            Log.i("DBXHome", "Null");
+        }
+        String data = FO.getOldData(file1, mDbxAcctMgr);
+        TextView tv = (TextView) getView().findViewById(elementID);
+        tv.setText(data);
+    }
+
 
     public void alarmDeterminate()
     {
@@ -179,17 +188,17 @@ public class HomeFragment extends Fragment {
         setupAlarm(secondsUntilday);
     }
 
-    View.OnClickListener tapAddrvs = new View.OnClickListener() {
+    View.OnClickListener tapAddrevs = new View.OnClickListener() {
         public void onClick(View v) {
             DateOperations DO = new DateOperations();
             String CurrentMonthFilePath = DO.getdateFile();
             File root = android.os.Environment.getExternalStorageDirectory();
-            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/", CurrentMonthFilePath + "rvs.txt");
-            String dir = "/ServiceAssistant/OtherStats/";
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ CurrentMonthFilePath+"/", CurrentMonthFilePath + "revs.txt");
+            String dir = "/ServiceAssistant/"+ CurrentMonthFilePath+"/";
             int elementid = R.id.rvcounter;
 
             FileOperations FO = new FileOperations();
-            FO.addOneToData(file1,dir);
+            FO.addOneToData(file1,dir, mDbxAcctMgr);
             updateUIElement(file1, elementid);
         }
     };
@@ -199,12 +208,12 @@ public class HomeFragment extends Fragment {
             DateOperations DO = new DateOperations();
             String CurrentMonthFilePath = DO.getdateFile();
             File root = android.os.Environment.getExternalStorageDirectory();
-            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/", CurrentMonthFilePath + "mags.txt");
-            String dir = "/ServiceAssistant/OtherStats/";
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ CurrentMonthFilePath+"/", CurrentMonthFilePath + "mags.txt");
+            String dir = "/ServiceAssistant/"+ CurrentMonthFilePath+"/";
             int elementid = R.id.magazineCounter;
 
             FileOperations FO = new FileOperations();
-            FO.addOneToData(file1, dir);
+            FO.addOneToData(file1, dir, mDbxAcctMgr);
             updateUIElement(file1, elementid);
         }
 
@@ -214,12 +223,12 @@ public class HomeFragment extends Fragment {
             DateOperations DO = new DateOperations();
             String CurrentMonthFilePath = DO.getdateFile();
             File root = android.os.Environment.getExternalStorageDirectory();
-            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/", CurrentMonthFilePath + "bro.txt");
-            String dir = "/ServiceAssistant/OtherStats/";
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ CurrentMonthFilePath+"/", CurrentMonthFilePath + "bros.txt");
+            String dir = "/ServiceAssistant/"+ CurrentMonthFilePath+"/";
             int elementid = R.id.brochureCounter;
 
             FileOperations FO = new FileOperations();
-            FO.addOneToData(file1, dir);
+            FO.addOneToData(file1, dir, mDbxAcctMgr);
             updateUIElement(file1, elementid);
         }
 
@@ -229,24 +238,57 @@ public class HomeFragment extends Fragment {
             DateOperations DO = new DateOperations();
             String CurrentMonthFilePath = DO.getdateFile();
             File root = android.os.Environment.getExternalStorageDirectory();
-            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/", CurrentMonthFilePath + "book.txt");
-            String dir = "/ServiceAssistant/OtherStats/";
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ CurrentMonthFilePath+"/", CurrentMonthFilePath + "book.txt");
+            String dir = "/ServiceAssistant/"+ CurrentMonthFilePath+"/";
             int elementid = R.id.bookCounter;
 
             FileOperations FO = new FileOperations();
-            FO.addOneToData(file1, dir);
+            FO.addOneToData(file1, dir, mDbxAcctMgr);
             updateUIElement(file1, elementid);
         }
 
     };
+
+    View.OnClickListener buttonListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            Boolean hasLinked = mDbxAcctMgr.hasLinkedAccount();
+            DropBoxMethods dbm = new DropBoxMethods();
+            Context current = getActivity().getApplicationContext();
+            if (hasLinked == true){
+                Log.i("DB", "Already linked");
+                try {
+                    dbm.doDropboxTest(current);
+                } catch (DbxException.Unauthorized unauthorized) {
+                    unauthorized.printStackTrace();
+                }
+            }
+            else
+            {
+                mDbxAcctMgr.startLink(getActivity(), 0);
+            }
+        }
+    };
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 0) {
+            if (resultCode == Activity.RESULT_OK) {
+                Log.i("DB", "Success");
+            } else {
+                // ... Link failed or was cancelled by the user.
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 
     public void magUpdater()
     {
         DateOperations DO = new DateOperations();
         String CurrentMonthFilePath = DO.getdateFile();
         File root = android.os.Environment.getExternalStorageDirectory();
-        java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/", CurrentMonthFilePath + "mags.txt");
-        String dir = "/ServiceAssistant/OtherStats/";
+        java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ CurrentMonthFilePath+"/", CurrentMonthFilePath + "mags.txt");
+        String dir = "/ServiceAssistant/"+ CurrentMonthFilePath+"/";
         int elementid = R.id.magazineCounter;
 
         FileOperations FO = new FileOperations();
@@ -258,8 +300,8 @@ public class HomeFragment extends Fragment {
         DateOperations DO = new DateOperations();
         String CurrentMonthFilePath = DO.getdateFile();
         File root = android.os.Environment.getExternalStorageDirectory();
-        java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/", CurrentMonthFilePath + "rvs.txt");
-        String dir = "/ServiceAssistant/OtherStats/";
+        java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ CurrentMonthFilePath+"/", CurrentMonthFilePath + "revs.txt");
+        String dir = "/ServiceAssistant/"+ CurrentMonthFilePath+"/";
         int elementid = R.id.rvcounter;
 
         FileOperations FO = new FileOperations();
@@ -271,7 +313,7 @@ public class HomeFragment extends Fragment {
         DateOperations DO = new DateOperations();
         String CurrentMonthFilePath = DO.getdateFile();
         File root = android.os.Environment.getExternalStorageDirectory();
-        java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/", CurrentMonthFilePath + "bro.txt");
+        java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ CurrentMonthFilePath+"/", CurrentMonthFilePath + "bros.txt");
         int elementid = R.id.brochureCounter;
 
         updateUIElement(file1, elementid);
@@ -281,7 +323,7 @@ public class HomeFragment extends Fragment {
         DateOperations DO = new DateOperations();
         String CurrentMonthFilePath = DO.getdateFile();
         File root = android.os.Environment.getExternalStorageDirectory();
-        java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/OtherStats/", CurrentMonthFilePath + "book.txt");
+        java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ CurrentMonthFilePath+"/", CurrentMonthFilePath + "book.txt");
         int elementid = R.id.bookCounter;
 
         updateUIElement(file1, elementid);
@@ -294,12 +336,12 @@ public class HomeFragment extends Fragment {
             DateOperations DO = new DateOperations();
             String CurrentMonthFilePath = DO.getdateFile();
             File root = android.os.Environment.getExternalStorageDirectory();
-            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/", CurrentMonthFilePath + ".txt");
-            String dir = "/ServiceAssistant/";
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ CurrentMonthFilePath+"/", CurrentMonthFilePath + "hour.txt");
+            String dir = "/ServiceAssistant/" + CurrentMonthFilePath + "/";
 
             FileOperations FO = new FileOperations();
-            FO.addOneToData(file1, dir);
-            FO.getOldData(file1);
+            FO.addOneToData(file1, dir, mDbxAcctMgr);
+            FO.getOldData(file1, mDbxAcctMgr);
             setHoursLabel();
             getPrefs();
         }
@@ -368,174 +410,18 @@ public class HomeFragment extends Fragment {
         DateOperations DO = new DateOperations();
         String CurrentMonthFilePath = DO.getdateFile();
         File root = android.os.Environment.getExternalStorageDirectory();
-        java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/", CurrentMonthFilePath + ".txt");
-        String dir = "/ServiceAssistant/";
+        java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + CurrentMonthFilePath + "/", CurrentMonthFilePath + "hour.txt");
+        String dir = "/ServiceAssistant/" + CurrentMonthFilePath + "/";
 
         FileOperations FO = new FileOperations();
-        String NewString = FO.getOldData(file1);
+        String NewString = FO.getOldData(file1, mDbxAcctMgr);
         TextView tv = (TextView)getView().findViewById(R.id.HourCount);
         tv.setText(NewString);
     }
-    //File Access
-    public void dbCheck(){
-        Calendar cal = Calendar.getInstance();
-        int currentMonth = cal.get(Calendar.MONTH)+1;
-        int currentYear = cal.get(Calendar.YEAR);
-        Log.i("INFO", Integer.toString(currentYear));
-        if (currentMonth > 9)
-        {
-            String CurrentMonthFilePath = Integer.toString(currentMonth) + Integer.toString(currentYear);
-            //Log.i("INFO", CurrentMonthFilePath);
-            File root = android.os.Environment.getExternalStorageDirectory();
-            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" , CurrentMonthFilePath + ".txt");
 
-            FileOperations FO = new FileOperations();
-            String NewString = FO.getOldData(file1);
-            TextView tv = (TextView)getView().findViewById(R.id.HourCount);
-            tv.setText(NewString);
-
-            if (file1.exists()) {
-                Log.i("INFO", "Found the external file!");
-                setHoursLabel();
-            }
-            else{
-                // See http://stackoverflow.com/questions/3551821/android-write-to-sd-card-folder
-
-                File dir1 = new File (root.getAbsolutePath() + "/ServiceAssistant/");
-                dir1.mkdirs();
-                File file = new File(dir1, CurrentMonthFilePath + ".txt");
-                int i = 0;
-
-                try {
-                    FileOutputStream f = new FileOutputStream(file);
-                    PrintWriter pw = new PrintWriter(f);
-                    pw.print("0");
-                    pw.flush();
-                    pw.close();
-                    f.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    Log.i("INFO", "******* File not found. Did you" +
-                            " add a WRITE_EXTERNAL_STORAGE permission to the   manifest?");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                setHoursLabel();
-            }
-        }
-        else {
-            String CurrentMonthFilePath = "0" + Integer.toString(currentMonth) + Integer.toString(currentYear);
-            //Log.i("INFO", CurrentMonthFilePath);
-            File root = android.os.Environment.getExternalStorageDirectory();
-            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/", CurrentMonthFilePath + ".txt");
-
-            FileOperations FO = new FileOperations();
-            String NewString = FO.getOldData(file1);
-            TextView tv = (TextView) getView().findViewById(R.id.HourCount);
-            tv.setText(NewString);
-            if (file1.exists()) {
-                Log.i("INFO", "Found the external file!");
-                setHoursLabel();
-            } else {
-                // See http://stackoverflow.com/questions/3551821/android-write-to-sd-card-folder
-
-                File dir1 = new File(root.getAbsolutePath() + "/ServiceAssistant/");
-                dir1.mkdirs();
-                File file = new File(dir1, CurrentMonthFilePath + ".txt");
-                int i = 0;
-
-                try {
-                    FileOutputStream f = new FileOutputStream(file);
-                    PrintWriter pw = new PrintWriter(f);
-                    pw.print("0");
-                    pw.flush();
-                    pw.close();
-                    f.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                    Log.i("INFO", "******* File not found. Did you" +
-                            " add a WRITE_EXTERNAL_STORAGE permission to the   manifest?");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                setHoursLabel();
-            }
-        }
-    }
-
-    //No File Access
-    /*void addTime()
-    {
-        Intent intent = new Intent(this, AddTime.class);
-        startActivity(intent);
-    }
-    */
-    // File Access
-    //TODO: Calendar fixes
-    void reset()
-    {
-
-        Calendar cal = Calendar.getInstance();
-        int currentMonth = cal.get(Calendar.MONTH)+1;
-        int currentYear = cal.get(Calendar.YEAR);
-        Log.i("INFO", Integer.toString(currentYear));
-        if (currentMonth > 9) {
-            String CurrentMonthFilePath = Integer.toString(currentMonth) + Integer.toString(currentYear);
-            //Log.i("INFO", CurrentMonthFilePath);
-            File root = android.os.Environment.getExternalStorageDirectory();
-            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/", CurrentMonthFilePath + ".txt");
-
-            try {
-                FileOutputStream f = new FileOutputStream(file1);
-                PrintWriter pw = new PrintWriter(f);
-                pw.print("0");
-                pw.flush();
-                pw.close();
-                f.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                Log.i("INFO", "File not found. Did you add a WRITE_EXTERNAL_STORAGE permission to the   manifest?");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            setHoursLabel();
-            getPrefs();
-        }
-        else
-        {
-            String CurrentMonthFilePath = "0" + Integer.toString(currentMonth) + Integer.toString(currentYear);
-            //Log.i("INFO", CurrentMonthFilePath);
-            File root = android.os.Environment.getExternalStorageDirectory();
-            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/", CurrentMonthFilePath + ".txt");
-
-            try {
-                FileOutputStream f = new FileOutputStream(file1);
-                PrintWriter pw = new PrintWriter(f);
-                pw.print("0");
-                pw.flush();
-                pw.close();
-                f.close();
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-                Log.i("INFO", "File not found. Did you add a WRITE_EXTERNAL_STORAGE permission to the   manifest?");
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            setHoursLabel();
-            getPrefs();
-        }
-
-    }
-/*
-    public void goDrawer(View view)
-    {
-        Intent intent = new Intent(this, NavigationDrawer.class);
-        startActivity(intent);
-    }
-    */
-    //Preference Access
+    //TODO: Create methods for more flexible access methods
     void getPrefs(){
-        SharedPreferences sharedPrefs = this.getActivity().getSharedPreferences("GoalSettings", Context.MODE_PRIVATE);
+        SharedPreferences sharedPrefs = getActivity().getSharedPreferences("GoalSettings", Context.MODE_PRIVATE);
 
         StringBuilder builder1 = new StringBuilder();
         builder1.append("\n Goal: "
@@ -545,99 +431,143 @@ public class HomeFragment extends Fragment {
         tv2.setText(final1);
         Log.i("INFO","Goal is: " + final1);
         Integer goalNum = sharedPrefs.getInt("Goal", -1);
-        progressBarUpdate(goalNum);
+        newProgressBarUpdate(goalNum);
 
     }
-    //TODO: Calendar fixes
-    void progressBarUpdate(Integer goalNum)
+
+    public void newFileMethods()
     {
+        DateOperations DO = new DateOperations();
+        String datefile = DO.getdateFile();
+        File root = android.os.Environment.getExternalStorageDirectory();
+        java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + datefile);
+        File file2 = new File(root.getAbsolutePath()+ "/ServiceAssistant/" + datefile + "/" + datefile + "hour.txt");
+        File file3 = new File(root.getAbsolutePath()+ "/ServiceAssistant/" + datefile + "/" + datefile + "mags.txt");
+        File file4 = new File(root.getAbsolutePath()+ "/ServiceAssistant/" + datefile + "/" + datefile + "revs.txt");
+        File file5 = new File(root.getAbsolutePath()+ "/ServiceAssistant/" + datefile + "/" + datefile + "book.txt");
+        File file6 = new File(root.getAbsolutePath()+ "/ServiceAssistant/" + datefile + "/" + datefile + "bros.txt");
+        String dirname = "/ServiceAssistant/" + datefile + "/";
+
+        FileOperations2 FO2 = new FileOperations2();
+        FO2.createFolder(file1, dirname);
+        FO2.createfile(file2, dirname);
+        FO2.createfile(file3, dirname);
+        FO2.createfile(file4, dirname);
+        FO2.createfile(file5, dirname);
+        FO2.createfile(file6, dirname);
+
+    }
+
+    public void newProgressBarUpdate(Integer goalNum)
+    {
+        DateOperations DO = new DateOperations();
+        String date = DO.getdateFile();
+
         Calendar cal = Calendar.getInstance();
-        int currentMonth = cal.get(Calendar.MONTH)+1;
-        int currentYear = cal.get(Calendar.YEAR);
-        int currentDay = cal.get(Calendar.DAY_OF_MONTH);
-        Log.i("INFO", Integer.toString(currentYear));
-        if (currentMonth > 9) {
-            String CurrentMonthFilePath = Integer.toString(currentMonth) + Integer.toString(currentYear);
-            //Log.i("INFO", CurrentMonthFilePath);
-            File root = android.os.Environment.getExternalStorageDirectory();
-            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/", CurrentMonthFilePath + ".txt");
+        Integer currentDay = cal.get(Calendar.DAY_OF_MONTH);
 
-            FileOperations FO = new FileOperations();
+        File root = android.os.Environment.getExternalStorageDirectory();
+        java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + date + "/", date + "hour.txt");
+
+        FileOperations FO = new FileOperations();
 
 
-            Integer mId = 001;
+        Integer mId = 001;
 
-            ProgressBar pb = (ProgressBar) getView().findViewById(R.id.GoalBar);
-            String hoursToDate = FO.getOldData(file1);
-            Integer hourstoDate = Integer.parseInt(hoursToDate);
-            pb.setMax(goalNum);
-            pb.setProgress(hourstoDate);
+        ProgressBar pb = (ProgressBar) getView().findViewById(R.id.GoalBar);
+        String hoursToDate = FO.getOldData(file1, mDbxAcctMgr);
+        Integer hourstoDate = Integer.parseInt(hoursToDate);
+        pb.setMax(goalNum);
+        pb.setProgress(hourstoDate);
 
-            Integer hoursToGo = goalNum - hourstoDate;
-            String hoursToGoStr = Integer.toString(hoursToGo);
+        Integer hoursToGo = goalNum - hourstoDate;
+        String hoursToGoStr = Integer.toString(hoursToGo);
 
 
-            if (currentDay > 10) {
-                NotificationCompat.Builder mBuilder =
-                        new NotificationCompat.Builder(getActivity())
-                                .setSmallIcon(R.drawable.ic_history64)
-                                .setContentTitle("Goal update")
-                                .setContentText("You only need " + hoursToGoStr + " hours to reach this months goal");
-// Creates an explicit intent for an Activity in your app
-                Intent resultIntent = new Intent(String.valueOf(MainActivity.class));
-
-// The stack builder object will contain an artificial back stack for the
-// started Activity.
-// This ensures that navigating backward from the Activity leads out of
-// your application to the Home screen.
-                TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity());
-// Adds the back stack for the Intent (but not the Intent itself)
-                stackBuilder.addParentStack(MainActivity.class);
-// Adds the Intent that starts the Activity to the top of the stack
-                stackBuilder.addNextIntent(resultIntent);
-                PendingIntent resultPendingIntent =
-                        stackBuilder.getPendingIntent(
-                                0,
-                                PendingIntent.FLAG_UPDATE_CURRENT
-                        );
-                mBuilder.setContentIntent(resultPendingIntent);
-                NotificationManager mNotificationManager =
-                        (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-// mId allows you to update the notification later on.
-                mNotificationManager.notify(mId, mBuilder.build());
-            }
-
-            TextView left = (TextView) getView().findViewById(R.id.HoursToGo);
-            if (hoursToGo <= 0) {
-                left.setText("You are done!");
-            } else {
-                left.setText("Hours to go: " + Integer.toString(hoursToGo));
-            }
+        if (currentDay > 10) {
+            NotificationCompat.Builder mBuilder =
+                    new NotificationCompat.Builder(getActivity())
+                            .setSmallIcon(R.drawable.ic_history64)
+                            .setContentTitle("Goal update")
+                            .setContentText("You only need " + hoursToGoStr + " hours to reach this months goal");
+            Intent resultIntent = new Intent(String.valueOf(MainActivity.class));
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity());
+            stackBuilder.addParentStack(MainActivity.class);
+            stackBuilder.addNextIntent(resultIntent);
+            PendingIntent resultPendingIntent =
+                    stackBuilder.getPendingIntent(
+                            0,
+                            PendingIntent.FLAG_UPDATE_CURRENT
+                    );
+            mBuilder.setContentIntent(resultPendingIntent);
+            NotificationManager mNotificationManager =
+                    (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.notify(mId, mBuilder.build());
         }
-        else
-        {
-            String CurrentMonthFilePath = "0" + Integer.toString(currentMonth) + Integer.toString(currentYear);
-            File root = android.os.Environment.getExternalStorageDirectory();
-            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/", CurrentMonthFilePath + ".txt");
-            FileOperations FO = new FileOperations();
-            Integer mId = 001;
 
-            ProgressBar pb = (ProgressBar) getView().findViewById(R.id.GoalBar);
-            Log.i("INFO", String.valueOf(file1));
-            String hoursToDate = FO.getOldData(file1);
-            Integer hourstoDate = Integer.parseInt(hoursToDate);
-            pb.setMax(goalNum);
-            pb.setProgress(hourstoDate);
-
-            Integer hoursToGo = goalNum - hourstoDate;
-            String hoursToGoStr = Integer.toString(hoursToGo);
-            TextView left = (TextView) getView().findViewById(R.id.HoursToGo);
-            if (hoursToGo <= 0) {
-                left.setText("You are done!");
-            } else {
-                left.setText("Hours to go: " + Integer.toString(hoursToGo));
-            }
+        TextView left = (TextView) getView().findViewById(R.id.HoursToGo);
+        if (hoursToGo <= 0) {
+            left.setText("You are done!");
+        } else {
+            left.setText("Hours to go: " + Integer.toString(hoursToGo));
         }
+    }
+
+    public void newReset()
+    {
+        DateOperations DO = new DateOperations();
+        FileOperations FO = new FileOperations();
+        String date = DO.getdateFile();
+
+        File root = android.os.Environment.getExternalStorageDirectory();
+        java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + date + "/", date + "hour.txt");
+        FO.reset(file1);
+        setHoursLabel();
+        getPrefs();
+    }
+
+    public void getFolder()
+    {
+        File root = android.os.Environment.getExternalStorageDirectory();
+        String dir = root.getAbsolutePath() + "/ServiceAssistant/";
+        FileOperations FO = new FileOperations();
+        List<String> folders = FO.getFolderList(dir);
+
+        String[] filesArray = new String[folders.size()];
+        folders.toArray(filesArray);
+
+        Log.i("FOLDERS", filesArray.toString());
+    }
+
+    public void initialSync() throws FileNotFoundException, DbxException {
+        DateOperations DO =  new DateOperations();
+        FileOperations FO = new FileOperations();
+        DropBoxMethods DBX = new DropBoxMethods();
+        String date = DO.getdateFile();
+
+        mDbxAcctMgr = DbxAccountManager.getInstance(getActivity().getApplicationContext(), APP_KEY, APP_SECRET);
+
+        File root = android.os.Environment.getExternalStorageDirectory();
+        java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + date);
+        File file2 = new File(root.getAbsolutePath()+ "/ServiceAssistant/" + date + "/" + date + "hour.txt");
+        File file3 = new File(root.getAbsolutePath()+ "/ServiceAssistant/" + date + "/" + date + "mags.txt");
+        File file4 = new File(root.getAbsolutePath()+ "/ServiceAssistant/" + date + "/" + date + "revs.txt");
+        File file5 = new File(root.getAbsolutePath()+ "/ServiceAssistant/" + date + "/" + date + "book.txt");
+        File file6 = new File(root.getAbsolutePath()+ "/ServiceAssistant/" + date + "/" + date + "bros.txt");
+
+        String data1 = FO.getOldData(file2, mDbxAcctMgr);
+        String data2 = FO.getOldData(file3, mDbxAcctMgr);
+        String data3 = FO.getOldData(file4, mDbxAcctMgr);
+        String data4 = FO.getOldData(file5, mDbxAcctMgr);
+        String data5 = FO.getOldData(file6, mDbxAcctMgr);
+
+        DBX.uploadNumberFile(date, data1 ,mDbxAcctMgr, file2.toString());
+        DBX.uploadNumberFile(date, data2 ,mDbxAcctMgr, file3.toString());
+        DBX.uploadNumberFile(date, data3 ,mDbxAcctMgr, file4.toString());
+        DBX.uploadNumberFile(date, data4 ,mDbxAcctMgr, file5.toString());
+        DBX.uploadNumberFile(date, data5 ,mDbxAcctMgr, file6.toString());
+
+
     }
 }
 

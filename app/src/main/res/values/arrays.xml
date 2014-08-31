@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_auto_sync">If enabled, the app will automatically sync your data when
+        you start the app
+    </string-array>
+    <string-array name="colors"><item>Blue</item><item>Red</item><item>Green</item> </string-array>
+    <string-array name="colorsValues"><item>#000BFF</item><item>#FF0000</item><item>#00FF1D</item> </string-array>
+
+</resources>

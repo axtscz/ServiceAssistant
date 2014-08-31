@@ -25,4 +25,86 @@ public class DateOperations {
             return CurrentMonthFilePath;
         }
     }
+
+    public String getMonth(String month1)
+    {
+        String TitleMonth = "";
+        if (month1.equals("01"))
+        {
+            TitleMonth = "January";
+            Log.i("INFOMONTH", TitleMonth);
+            return TitleMonth;
+        }
+        else if (month1.equals("02"))
+        {
+            TitleMonth = "February";
+            Log.i("INFOMONTH", TitleMonth);
+            return TitleMonth;
+        }
+        else if (month1.equals("03"))
+        {
+            TitleMonth = "March";
+            Log.i("INFOMONTH", TitleMonth);
+            return TitleMonth;
+        }
+        else if (month1.equals("04"))
+        {
+            TitleMonth = "April";
+            Log.i("INFOMONTH", TitleMonth);
+            return TitleMonth;
+        }
+        else if (month1.equals("05"))
+        {
+            TitleMonth = "May";
+            Log.i("INFOMONTH", TitleMonth);
+            return TitleMonth;
+        }
+        else if (month1.equals("06"))
+        {
+            TitleMonth = "June";
+            Log.i("INFOMONTH", TitleMonth);
+            return TitleMonth;
+        }
+        else if (month1.equals("07"))
+        {
+            TitleMonth = "July";
+            Log.i("INFOMONTH", TitleMonth);
+            return TitleMonth;
+        }
+        else if (month1.equals("08"))
+        {
+            TitleMonth = "August";
+            Log.i("INFOMONTH", TitleMonth);
+            return TitleMonth;
+        }
+        else if (month1.equals("09"))
+        {
+            TitleMonth = "September";
+            Log.i("INFOMONTH", TitleMonth);
+            return TitleMonth;
+        }
+        else if (month1.equals("10"))
+        {
+            TitleMonth = "October";
+            Log.i("INFOMONTH", TitleMonth);
+            return TitleMonth;
+        }
+        else if (month1.equals("11"))
+        {
+            TitleMonth = "November";
+            Log.i("INFOMONTH", TitleMonth);
+            return TitleMonth;
+        }
+        else if (month1.equals("12"))
+        {
+            TitleMonth = "December";
+            Log.i("INFOMONTH", TitleMonth);
+            return TitleMonth;
+        }
+        else {
+            TitleMonth = "December";
+            Log.i("INFOMONTH", TitleMonth);
+            return TitleMonth;
+        }
+    }
 }
