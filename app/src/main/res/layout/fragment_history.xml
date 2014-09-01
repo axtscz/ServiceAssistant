@@ -7,7 +7,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.collusion.serviceassistant.History"
-    android:background="#ff7ccaae">
+    android:background="#009688">
 
     <ListView
         android:layout_width="wrap_content"
@@ -18,7 +18,7 @@
         android:layout_alignParentTop="true"
         android:clickable="true"
         android:background="@drawable/card_layout"
-        android:divider="#ff7ccaae"
+        android:divider="#009688"
         android:dividerHeight="5dp"
         />
 

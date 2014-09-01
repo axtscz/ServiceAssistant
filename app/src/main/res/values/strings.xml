@@ -49,5 +49,6 @@
     <string name="auto_sync">Auto-Sync</string>
     <string name="colors">Choose a color</string>
     <string name="customization">Customization</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

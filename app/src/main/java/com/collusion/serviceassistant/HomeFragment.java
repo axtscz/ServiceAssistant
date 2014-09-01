@@ -4,39 +4,43 @@ import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.Fragment;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
+import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextSwitcher;
 import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import com.dropbox.sync.android.DbxAccountManager;
 import com.dropbox.sync.android.DbxException;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Calendar;
 import java.util.List;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment{
     private static final String APP_SECRET = "29dhk340mmpecsj";
     private static final String APP_KEY = "wup7j5haihrzc11" ;
     private View myFragmentView;
@@ -44,18 +48,30 @@ public class HomeFragment extends Fragment {
     Integer elementID2 = R.id.jwt2counter;
     Integer elementID3 = R.id.jwt3counter;
     Integer elementID4 = R.id.jwt4counter;
-    Integer elementID5 = R.id.jwt5counter;
+    Integer elementID5 = R.id.HourLabel1;
     Integer elementID6 = R.id.jwt6counter;
     DbxAccountManager mDbxAcctMgr;
     Context thiscontext;
     Activity a;
-	public HomeFragment(){}
+    View v;
+    private GestureDetectorCompat mDetector;
+
+    private GestureDetector myGestDetector;
+
+    String textToShow[]={"Main HeadLine","Your Message","New In Technology","New Articles","Business News","What IS New"};
+    int messageCount=textToShow.length;
+    // to keep current Index of text
+    int currentIndex=1;
+
+    TextSwitcher mSwitcher;
+
+    public HomeFragment(){}
 	
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_home, container, false);
+        View rootView = inflater.inflate(R.layout.afesd, container, false);
         setHasOptionsMenu(true);
         thiscontext = container.getContext();
         a = this.getActivity();
@@ -105,8 +121,8 @@ public class HomeFragment extends Fragment {
         }
 
         newFileMethods();
-        TextView tv = (TextView) getView().findViewById(R.id.HourCount);
-        tv.setOnClickListener(tapAdd);
+        //TextView tv = (TextView) getView().findViewById(R.id.HourCount);
+        //tv.setOnClickListener(tapAdd);
         Button button = (Button) getView().findViewById(R.id.goalButton);
         button.setOnClickListener(goalDialogLaunch);
         TextView mags = (TextView)getView().findViewById(R.id.magazineCounter);
@@ -117,8 +133,12 @@ public class HomeFragment extends Fragment {
         books.setOnClickListener(tapAddBooks);
         TextView bros = (TextView)getView().findViewById(R.id.brochureCounter);
         bros.setOnClickListener(tapAddBros);
-        Button sync = (Button) getView().findViewById(R.id.button);
-        sync.setOnClickListener(buttonListener);
+
+        DateOperations DO = new DateOperations();
+        String CurrentMonthFilePath = DO.getdateFile();
+        File root = android.os.Environment.getExternalStorageDirectory();
+        java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ CurrentMonthFilePath+"/", CurrentMonthFilePath + "hour.txt");
+
 
         alarmDeterminate();
 
@@ -159,8 +179,11 @@ public class HomeFragment extends Fragment {
             Log.i("SYNC", "No sync");
         }
 
+        gesture();
+        slide();
+        slideHoursInUpdate(file1);
+
     }
-    //TODO: updateUIElement can stay
     public void updateUIElement(File file1, Integer elementID)
     {
         FileOperations FO = new FileOperations();
@@ -247,26 +270,6 @@ public class HomeFragment extends Fragment {
             updateUIElement(file1, elementid);
         }
 
-    };
-
-    View.OnClickListener buttonListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            Boolean hasLinked = mDbxAcctMgr.hasLinkedAccount();
-            DropBoxMethods dbm = new DropBoxMethods();
-            Context current = getActivity().getApplicationContext();
-            if (hasLinked == true){
-                Log.i("DB", "Already linked");
-                try {
-                    dbm.doDropboxTest(current);
-                } catch (DbxException.Unauthorized unauthorized) {
-                    unauthorized.printStackTrace();
-                }
-            }
-            else
-            {
-                mDbxAcctMgr.startLink(getActivity(), 0);
-            }
-        }
     };
 
     @Override
@@ -415,8 +418,8 @@ public class HomeFragment extends Fragment {
 
         FileOperations FO = new FileOperations();
         String NewString = FO.getOldData(file1, mDbxAcctMgr);
-        TextView tv = (TextView)getView().findViewById(R.id.HourCount);
-        tv.setText(NewString);
+        //TextView tv = (TextView)getView().findViewById(R.id.HourCount);
+        //tv.setText(NewString);
     }
 
     //TODO: Create methods for more flexible access methods
@@ -483,7 +486,7 @@ public class HomeFragment extends Fragment {
         Integer hoursToGo = goalNum - hourstoDate;
         String hoursToGoStr = Integer.toString(hoursToGo);
 
-
+/*
         if (currentDay > 10) {
             NotificationCompat.Builder mBuilder =
                     new NotificationCompat.Builder(getActivity())
@@ -504,7 +507,7 @@ public class HomeFragment extends Fragment {
                     (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.notify(mId, mBuilder.build());
         }
-
+*/
         TextView left = (TextView) getView().findViewById(R.id.HoursToGo);
         if (hoursToGo <= 0) {
             left.setText("You are done!");
@@ -522,7 +525,7 @@ public class HomeFragment extends Fragment {
         File root = android.os.Environment.getExternalStorageDirectory();
         java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + date + "/", date + "hour.txt");
         FO.reset(file1);
-        setHoursLabel();
+        slideHoursInUpdate(file1);
         getPrefs();
     }
 
@@ -569,5 +572,130 @@ public class HomeFragment extends Fragment {
 
 
     }
+
+    public void gesture()
+    {
+        myGestDetector = new GestureDetector(getActivity(), new GestureDectection());
+        TextSwitcher mainTextView = (TextSwitcher)getView().findViewById(R.id.textSwitcher2);
+        mainTextView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                myGestDetector.onTouchEvent(motionEvent);
+                return true;
+
+            }
+
+        });
+    }
+
+    private class GestureDectection implements GestureDetector.OnGestureListener {
+
+
+        @Override
+        public boolean onDown(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent motionEvent) {
+
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent motionEvent) {
+            DateOperations DO = new DateOperations();
+            String date = DO.getdateFile();
+            File root = android.os.Environment.getExternalStorageDirectory();
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + date);
+            String dirname = "/ServiceAssistant/" + date + "/";
+            File file2 = new File(root.getAbsolutePath() + "/ServiceAssistant/" + date + "/" + date + "hour.txt");
+            FileOperations FO = new FileOperations();
+            int elementID11 = R.id.HourCount;
+            FO.addOneToData(file2, dirname, mDbxAcctMgr);
+            getPrefs();
+            slideHoursInUpdate(file2);
+            return false;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float v, float v2) {
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent motionEvent) {
+
+        }
+
+
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
+            Log.d("GESTURES", "onFling: " + event1.toString() + event2.toString());
+            DateOperations DO = new DateOperations();
+            String date = DO.getdateFile();
+            File root = android.os.Environment.getExternalStorageDirectory();
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + date);
+            String dirname = "/ServiceAssistant/" + date + "/";
+            File file2 = new File(root.getAbsolutePath() + "/ServiceAssistant/" + date + "/" + date + "hour.txt");
+            FileOperations FO = new FileOperations();
+            int elementID11 = R.id.HourCount;
+            FO.removeOneToData(file2, dirname, mDbxAcctMgr);
+            getPrefs();
+            slideHoursInUpdate(file2);
+            return true;
+        }
+    }
+        public void slide()
+        {
+            mSwitcher = (TextSwitcher) getView().findViewById(R.id.textSwitcher2);
+
+            // Set the ViewFactory of the TextSwitcher that will create TextView object when asked
+            mSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
+
+                public View makeView() {
+                    // TODO Auto-generated method stub
+                    // create new textView and set the properties like clolr, size etc
+                    TextView myText = new TextView(getActivity());
+                    myText.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
+                    myText.setTextSize(165);
+                    myText.setTextColor(Color.parseColor("#e0f2f1"));
+                    myText.setText(textToShow[currentIndex]);
+                    myText.setTypeface(Typeface.create("sans-serif-light", Typeface.NORMAL));
+                    return myText;
+                }
+
+
+            });
+
+            Animation in = AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_in_left);
+            Animation out = AnimationUtils.loadAnimation(getActivity(),android.R.anim.slide_out_right);
+
+            // set the animation type of textSwitcher
+            mSwitcher.setInAnimation(in);
+            mSwitcher.setOutAnimation(out);
+
+
+        }
+
+
+    public void slideHoursInUpdate(File file2)
+    {
+        FileOperations FO = new FileOperations();
+        final String data1 = FO.getOldData(file2, mDbxAcctMgr);
+
+        mSwitcher = (TextSwitcher) getView().findViewById(R.id.textSwitcher2);
+        Animation in = AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_in_left);
+        Animation out = AnimationUtils.loadAnimation(getActivity(),android.R.anim.slide_out_right);
+
+        // set the animation type of textSwitcher
+        mSwitcher.setInAnimation(in);
+        mSwitcher.setOutAnimation(out);
+
+        // Set the ViewFactory of the TextSwitcher that will create TextView object when asked
+        mSwitcher.setText(data1);
+    }
 }
+
+
+
 

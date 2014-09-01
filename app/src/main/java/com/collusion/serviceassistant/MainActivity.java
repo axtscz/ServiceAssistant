@@ -3,7 +3,9 @@ package com.collusion.serviceassistant;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -233,25 +235,30 @@ public class MainActivity extends Activity {
 	}
 
     public void onListItemClick(View view) {
+        Fragment fragment;
         TextView tv = (TextView)view.findViewById(R.id.filename);
         TextView textview = (TextView)view.findViewById(R.id.month);
         TextView hours = (TextView)view.findViewById(R.id.data);
         CharSequence month = tv.getText();
         String monthStr = month.toString();
+
         CharSequence month1 = textview.getText();
         String monthStr1 = month1.toString();
+
         CharSequence hours1 = hours.getText();
         String hoursStr1 = hours.toString();
 
-        Log.i("HOURS", hoursStr1);
-        Intent intent = new Intent(MainActivity.this, DetailsPage.class);
-        Bundle b = new Bundle();
-        b.putString("filename", monthStr);
-        b.putString("month", monthStr1);//Your id
-        b.putString("hours", hoursStr1);//Your id
-        intent.putExtras(b); //Put your id to your next Intent
-        startActivity(intent);
-        finish();
+        SharedPreferences.Editor editor = getSharedPreferences("details", Context.MODE_PRIVATE).edit();
+
+        editor.putString("Title", monthStr1);
+        editor.putString("filename", monthStr);
+        editor.putString("hours", hoursStr1);
+        editor.apply();
+        fragment = new Details();
+
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_container, fragment).commit();
     }
 
     public void onClick(View v) {

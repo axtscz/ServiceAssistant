@@ -212,4 +212,55 @@ public class FileOperations
             e.printStackTrace();
         }
     }
+
+    public java.io.File removeOneToData(File file1, String dirname, DbxAccountManager dbxAccountManager)
+    {
+        if (file1.exists()){
+            String oldData = getOldData(file1, dbxAccountManager);
+            Log.i("Data", oldData);
+            Integer oldDataInt = Integer.parseInt(oldData);
+            Integer newData = oldDataInt - 1;
+            String newDataString = Integer.toString(newData);
+            try {
+                FileOutputStream f = new FileOutputStream(file1);
+                PrintWriter pw = new PrintWriter(f);
+                pw.print(newDataString);
+                pw.flush();
+                pw.close();
+                f.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Log.i("INFO", "******* File not found. Did you" +
+                        " add a WRITE_EXTERNAL_STORAGE permission to the   manifest?");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return file1;
+        }
+        else {
+            Log.i("INFO", "Gone to else");
+            // See http://stackoverflow.com/questions/3551821/android-write-to-sd-card-folder
+            File root = android.os.Environment.getExternalStorageDirectory();
+            File dir1 = new File(root.getAbsolutePath() + dirname);
+            dir1.mkdir();
+            File file = new File(String.valueOf(file1));
+            int i = 0;
+
+            try {
+                FileOutputStream f = new FileOutputStream(file);
+                PrintWriter pw = new PrintWriter(f);
+                pw.print("0");
+                pw.flush();
+                pw.close();
+                f.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+                Log.i("INFO", "******* File not found. Did you" +
+                        " add a WRITE_EXTERNAL_STORAGE permission to the   manifest?");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return file1;
+    }
 }

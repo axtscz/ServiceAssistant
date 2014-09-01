@@ -18,7 +18,7 @@ import org.w3c.dom.Text;
 
 import java.io.File;
 
-public class DetailsPage extends ActionBarActivity{
+public class DetailsPage extends Activity{
 
     Integer elementID1 = R.id.hourData;
     Integer elementID2 = R.id.magazineData;
@@ -49,13 +49,12 @@ public class DetailsPage extends ActionBarActivity{
         String filename = value.substring(0,6);
         Log.i("DETAILS", filename);
         File root = android.os.Environment.getExternalStorageDirectory();
-        java.io.File filemags = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ CurrentMonthFilePath+"/" , filename + "mags.txt");
-        java.io.File filervs = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ CurrentMonthFilePath+"/", filename + "revs.txt");
-        java.io.File filebook = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ CurrentMonthFilePath+"/", filename + "book.txt");
-        java.io.File filehours = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ CurrentMonthFilePath+"/", filename + "hour.txt");
+        java.io.File filemags = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ filename+"/" , filename + "mags.txt");
+        java.io.File filervs = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ filename+"/", filename + "revs.txt");
+        java.io.File filebook = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ filename+"/", filename + "book.txt");
+        java.io.File filehours = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ filename+"/", filename + "hour.txt");
 
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView tv = (TextView) findViewById(R.id.Title);
         tv.setText(month);
@@ -88,6 +87,7 @@ public class DetailsPage extends ActionBarActivity{
             case R.id.home:
                 Log.i("BACK", "Going back!");
                 Intent upIntent = NavUtils.getParentActivityIntent(this);
+
                 NavUtils.navigateUpFromSameTask(this);
                 return true;
             case R.id.share :

@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content">
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent" android:layout_height="match_parent"
+            android:background="#009688">
+
+            <ProgressBar
+                style="?android:attr/progressBarStyleHorizontal"
+                android:layout_width="330dp"
+                android:layout_height="330dp"
+                android:id="@+id/GoalBar"
+                android:progressDrawable="@drawable/circular_progress_bar"
+                android:layout_below="@+id/HourLabel1"
+                android:layout_centerHorizontal="true" />
+
+            <TextSwitcher
+                android:layout_width="fill_parent"
+                android:layout_height="200dp"
+                android:id="@+id/textSwitcher2"
+                android:layout_below="@+id/HourLabel1"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="38dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/HourCountLabel"
+                android:id="@+id/HourLabel1"
+                android:textSize="50sp"
+                android:layout_gravity="center_horizontal|top"
+                android:textColor="#e0f2f1"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/Hours"
+                android:id="@+id/jwt5Counter"
+                android:textSize="50sp"
+                android:gravity="center"
+                android:textAlignment="gravity"
+                android:textColor="#e0f2f1"
+                android:layout_marginTop="61dp"
+                android:layout_below="@+id/GoalBar"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/SetAGoalButton"
+                android:id="@+id/goalButton"
+                android:onClick="dialogBox"
+                android:textColor="#e0f2f1"
+                android:background="#00796b"
+                android:layout_below="@+id/jwt5Counter"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="0"
+                android:id="@+id/magazineCounter"
+                android:textSize="50dp"
+                android:layout_marginTop="66dp"
+                android:textColor="#e0f2f1"
+                android:layout_below="@+id/HoursToGo"
+                android:layout_toLeftOf="@+id/textView6" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/magazinelabel"
+                android:id="@+id/maglabel"
+                android:textColor="#e0f2f1"
+                android:layout_below="@+id/magazineCounter"
+                android:layout_alignRight="@+id/magazineCounter"
+                android:layout_alignEnd="@+id/magazineCounter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="0"
+                android:id="@+id/rvcounter"
+                android:textSize="50dp"
+                android:textColor="#e0f2f1"
+                android:layout_alignTop="@+id/textView6"
+                android:layout_toRightOf="@+id/textView6" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/rvlabel"
+                android:id="@+id/rvlabel"
+                android:textColor="#e0f2f1"
+                android:layout_below="@+id/rvcounter"
+                android:layout_alignLeft="@+id/rvcounter"
+                android:layout_alignStart="@+id/rvcounter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="0"
+                android:id="@+id/brochureCounter"
+                android:layout_marginTop="42dp"
+                android:textSize="50dp"
+                android:textColor="#e0f2f1"
+                android:layout_below="@+id/maglabel"
+                android:layout_alignRight="@+id/maglabel"
+                android:layout_alignEnd="@+id/maglabel" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/brochures"
+                android:id="@+id/brochureLabel"
+                android:textColor="#e0f2f1"
+                android:layout_below="@+id/brochureCounter"
+                android:layout_alignRight="@+id/maglabel"
+                android:layout_alignEnd="@+id/maglabel" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="0"
+                android:id="@+id/bookCounter"
+                android:textSize="50dp"
+                android:textColor="#e0f2f1"
+                android:layout_alignTop="@+id/brochureCounter"
+                android:layout_alignLeft="@+id/rvcounter"
+                android:layout_alignStart="@+id/rvcounter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="@string/Books"
+                android:id="@+id/bookLabel"
+                android:textColor="#e0f2f1"
+                android:layout_alignParentBottom="true"
+                android:layout_alignLeft="@+id/bookCounter"
+                android:layout_alignStart="@+id/bookCounter" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/MainGoalLabel"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#e0f2f1"
+                android:layout_below="@+id/goalButton"
+                android:layout_alignRight="@+id/HoursToGo"
+                android:layout_alignEnd="@+id/HoursToGo" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/HoursToGo"
+                android:layout_row="1"
+                android:layout_column="18"
+                android:gravity="top"
+                android:layout_gravity="center_horizontal"
+                android:textColor="#e0f2f1"
+                android:layout_below="@+id/MainGoalLabel"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Large Text"
+                android:id="@+id/textView6"
+                android:layout_alignTop="@+id/magazineCounter"
+                android:layout_centerHorizontal="true"
+                android:visibility="invisible" />
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

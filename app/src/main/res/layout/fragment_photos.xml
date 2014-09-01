@@ -24,8 +24,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/jwtpic1"
                 android:src="@drawable/jwtract"
-                android:clickable="true"
-                android:onClick="tapAddOne" />
+                android:clickable="true" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -35,8 +34,7 @@
                 android:layout_above="@+id/jwt4pic"
                 android:layout_toRightOf="@+id/jwt1counter"
                 android:layout_marginLeft="37dp"
-                android:clickable="true"
-                android:onClick="tapAddTwo" />
+                android:clickable="true" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -44,8 +42,7 @@
                 android:id="@+id/jwt3pic"
                 android:src="@drawable/jwt3"
                 android:layout_below="@+id/jwtpic1"
-                android:clickable="true"
-                android:onClick="tapAddThree"/>
+                android:clickable="true" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -55,8 +52,7 @@
                 android:layout_alignTop="@+id/jwt3pic"
                 android:layout_alignLeft="@+id/jwt2pic"
                 android:layout_alignStart="@+id/jwt2pic"
-                android:clickable="true"
-                android:onClick="tapAddFour"/>
+                android:clickable="true" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -66,8 +62,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:src="@drawable/jwt5"
-                android:clickable="true"
-                android:onClick="tapAddFive"/>
+                android:clickable="true" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -77,8 +72,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_alignLeft="@+id/jwt4pic"
                 android:layout_alignStart="@+id/jwt4pic"
-                android:clickable="true"
-                android:onClick="tapAddSix"/>
+                android:clickable="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -112,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="0"
-                android:id="@+id/jwt5counter"
+                android:id="@+id/HourLabel1"
                 android:layout_marginTop="50dp"
                 android:textSize="50sp"
                 android:layout_alignTop="@+id/jwt5pic"
@@ -154,7 +148,7 @@
                 android:text="0"
                 android:id="@+id/jwt6counter"
                 android:textSize="50sp"
-                android:layout_alignTop="@+id/jwt5counter"
+                android:layout_alignTop="@+id/HourLabel1"
                 android:layout_alignLeft="@+id/jwt4counter"
                 android:layout_alignStart="@+id/jwt4counter"
                 android:clickable="true"
