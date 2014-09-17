@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.collusion.serviceassistant"
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 19
     }
 

@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.collusion.serviceassistant.operations.DateOperations;
+import com.collusion.serviceassistant.operations.FileOperations;
 import com.dropbox.sync.android.DbxAccountManager;
 
 import java.io.File;

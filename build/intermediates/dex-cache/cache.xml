@@ -26,6 +26,12 @@
         revision="20.0.0"
         sha1="f71a6822470c9eb659d4f4a6cb57b780b35f058b"/>
     <item
+        dex="C:\Users\Antonio\Downloads\SlidingMenu1\app\build\intermediates\pre-dexed\debug\classes-70cf9ebf1d3380d607ac2fd31235435a635e05c6.jar"
+        jar="C:\Users\Antonio\Downloads\SlidingMenu1\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\5.2.08\classes.jar"
+        jumboMode="false"
+        revision="20.0.0"
+        sha1="1ed7a7a05185651f9af41ad93711cb96b66f331c"/>
+    <item
         dex="C:\Users\Antonio\Downloads\SlidingMenu1\app\build\intermediates\pre-dexed\debug\classes-951e2c0c6fdcf56b74b6aa654eff28589599c8ac.jar"
         jar="C:\Users\Antonio\Downloads\SlidingMenu1\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\classes.jar"
         jumboMode="false"

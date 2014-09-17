@@ -5,5 +5,26 @@
     </string-array>
     <string-array name="colors"><item>Blue</item><item>Red</item><item>Green</item> </string-array>
     <string-array name="colorsValues"><item>#000BFF</item><item>#FF0000</item><item>#00FF1D</item> </string-array>
+    <string-array name="daysofweek">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
+    <string-array name="sort">
+        <item>Name</item>
+        <item>Distance</item>
+    </string-array>
+    <string-array name="daysofweekany">
+        <item>Any</item>
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </string-array>
 
 </resources>

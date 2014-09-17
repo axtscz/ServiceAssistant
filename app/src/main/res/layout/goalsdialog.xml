@@ -29,7 +29,7 @@
         android:layout_height="50dp"
         android:inputType="number"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/Name"
         android:layout_above="@+id/saveButton"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"

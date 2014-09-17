@@ -2,19 +2,16 @@ package com.collusion.serviceassistant;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.NavUtils;
-import android.support.v4.app.TaskStackBuilder;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.collusion.serviceassistant.R;
+import com.collusion.serviceassistant.operations.DateOperations;
+import com.collusion.serviceassistant.operations.FileOperations;
 import com.dropbox.sync.android.DbxAccountManager;
-
-import org.w3c.dom.Text;
 
 import java.io.File;
 

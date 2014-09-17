@@ -8,7 +8,7 @@
 
     <header
         android:fragment="com.collusion.serviceassistant.SettingsActivity$NotificationPreferenceFragment"
-        android:title="@string/pref_header_notifications" />
+        android:title="@string/pref_header_location" />
 
     <header
         android:fragment="com.collusion.serviceassistant.SettingsActivity$DataSyncPreferenceFragment"

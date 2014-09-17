@@ -1,0 +1,52 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.collusion.serviceassistant.ReturnVisits.ReturnVisits"
+    android:background="#009688">
+
+
+    <Spinner
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/filter"
+        android:layout_alignParentTop="true"
+        android:layout_alignStart="@+id/rvListView" />
+
+    <Spinner
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/sort"
+        android:layout_above="@+id/rvListView"
+        android:layout_alignEnd="@+id/fabbutton" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rvListView"
+        android:clickable="true"
+        android:background="@drawable/card_layout"
+        android:divider="#009688"
+        android:dividerHeight="5dp"
+        android:layout_alignEnd="@+id/fabbutton"
+        android:layout_below="@+id/filter" />
+
+    <com.collusion.serviceassistant.FloatingActionButton
+        android:id="@+id/fabbutton"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_gravity="bottom|right"
+        android:clickable="false"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        app:color="#1de9b6"
+        app:drawable="@drawable/ic_action_new"
+        app:shadowRadius="15"/>
+
+</RelativeLayout>

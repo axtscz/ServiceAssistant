@@ -10,6 +10,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.location.Location;
+import android.location.LocationManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.view.GestureDetectorCompat;
@@ -32,6 +36,10 @@ import android.widget.TextSwitcher;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.collusion.serviceassistant.operations.DateOperations;
+import com.collusion.serviceassistant.operations.DropBoxMethods;
+import com.collusion.serviceassistant.operations.FileOperations;
+import com.collusion.serviceassistant.operations.FileOperations2;
 import com.dropbox.sync.android.DbxAccountManager;
 import com.dropbox.sync.android.DbxException;
 
@@ -57,6 +65,8 @@ public class HomeFragment extends Fragment{
     private GestureDetectorCompat mDetector;
 
     private GestureDetector myGestDetector;
+    private GestureDetector myGestMagDetector;
+    private GestureDetector myGestREVDetector;
 
     String textToShow[]={"Main HeadLine","Your Message","New In Technology","New Articles","Business News","What IS New"};
     int messageCount=textToShow.length;
@@ -126,7 +136,7 @@ public class HomeFragment extends Fragment{
         Button button = (Button) getView().findViewById(R.id.goalButton);
         button.setOnClickListener(goalDialogLaunch);
         TextView mags = (TextView)getView().findViewById(R.id.magazineCounter);
-        mags.setOnClickListener(tapAddMags);
+        //mags.setOnClickListener(tapAddMags);
         TextView revs = (TextView)getView().findViewById(R.id.rvcounter);
         revs.setOnClickListener(tapAddrevs);
         TextView books = (TextView)getView().findViewById(R.id.bookCounter);
@@ -162,26 +172,46 @@ public class HomeFragment extends Fragment{
         else
         {
             mDbxAcctMgr.startLink(a, 0);
+
         }
-        if (trueorfalse == true)
-        {
-            try {
-                initialSync();
-                Log.i("SYNC", "Calling auto-sync");
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (DbxException e) {
-                e.printStackTrace();
+        ConnectivityManager connManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        if (mWifi.isConnected()) {
+            // Do whatever
+
+            if (trueorfalse == true) {
+                try {
+                    initialSync();
+                    Log.i("SYNC", "Calling auto-sync");
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (DbxException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Log.i("SYNC", "No sync");
             }
         }
-        else
-        {
-            Log.i("SYNC", "No sync");
+        else {
+            Log.i("Connection", "Not connected to wifi");
         }
-
         gesture();
+        maggesture();
+        revgesture();
         slide();
         slideHoursInUpdate(file1);
+        LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+        Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        double longitude = location.getLongitude();
+        double latitude = location.getLatitude();
+        String longstr = String.valueOf(longitude);
+        String latstr = String.valueOf(latitude);
+        Log.i("LOCATION", "Longitude: " + longstr);
+        Log.i("LOCATION", "Latitude: " + latstr);
+        FileOperations FO = new FileOperations();
+        File rvfile = new File(root.getAbsolutePath() + "/ServiceAssistantReturnVisits/");
+        FO.createfile(rvfile, "/ServiceAssistantReturnVisits/");
 
     }
     public void updateUIElement(File file1, Integer elementID)
@@ -225,7 +255,7 @@ public class HomeFragment extends Fragment{
             updateUIElement(file1, elementid);
         }
     };
-
+/*
     View.OnClickListener tapAddMags = new View.OnClickListener() {
         public void onClick(View v) {
             DateOperations DO = new DateOperations();
@@ -240,7 +270,7 @@ public class HomeFragment extends Fragment{
             updateUIElement(file1, elementid);
         }
 
-    };
+    };*/
     View.OnClickListener tapAddBros = new View.OnClickListener() {
         public void onClick(View v) {
             DateOperations DO = new DateOperations();
@@ -379,7 +409,7 @@ public class HomeFragment extends Fragment{
             Button b2 = (Button) d.findViewById(R.id.goalButton);
             Button b1 = (Button) d.findViewById(R.id.saveButton);
             //final NumberPicker np = (NumberPicker) d.getView().findViewById(R.id.goalPicker);
-            final EditText et = (EditText) d.findViewById(R.id.editText);
+            final EditText et = (EditText) d.findViewById(R.id.Name);
             b1.setOnClickListener(new View.OnClickListener() {
 
                 public void onClick(View v) {
@@ -653,8 +683,6 @@ public class HomeFragment extends Fragment{
             mSwitcher.setFactory(new ViewSwitcher.ViewFactory() {
 
                 public View makeView() {
-                    // TODO Auto-generated method stub
-                    // create new textView and set the properties like clolr, size etc
                     TextView myText = new TextView(getActivity());
                     myText.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
                     myText.setTextSize(165);
@@ -693,6 +721,168 @@ public class HomeFragment extends Fragment{
 
         // Set the ViewFactory of the TextSwitcher that will create TextView object when asked
         mSwitcher.setText(data1);
+    }
+
+    public void maggesture()
+    {
+        myGestMagDetector = new GestureDetector(getActivity(), new GestureMagDectection());
+        TextView mainTextView = (TextView)getView().findViewById(R.id.magazineCounter);
+        mainTextView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                myGestMagDetector.onTouchEvent(motionEvent);
+                return true;
+
+            }
+
+        });
+    }
+
+    public void revgesture()
+    {
+        myGestREVDetector = new GestureDetector(getActivity(), new GestureRevDectection());
+        TextView mainTextView = (TextView)getView().findViewById(R.id.rvcounter);
+        mainTextView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                myGestREVDetector.onTouchEvent(motionEvent);
+                return true;
+
+            }
+
+        });
+    }
+
+    private class GestureMagDectection implements GestureDetector.OnGestureListener {
+
+
+        @Override
+        public boolean onDown(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent motionEvent) {
+
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent motionEvent) {
+            DateOperations DO = new DateOperations();
+            String date = DO.getdateFile();
+            File root = android.os.Environment.getExternalStorageDirectory();
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + date);
+            String dirname = "/ServiceAssistant/" + date + "/";
+            File file2 = new File(root.getAbsolutePath() + "/ServiceAssistant/" + date + "/" + date + "mags.txt");
+            FileOperations FO = new FileOperations();
+            int elementID11 = R.id.HourCount;
+            FO.addOneToData(file2, dirname, mDbxAcctMgr);
+            getPrefs();
+            updateUIElement(file2, R.id.magazineCounter);
+            return false;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float v, float v2) {
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent motionEvent) {
+            DateOperations DO = new DateOperations();
+            String date = DO.getdateFile();
+            File root = android.os.Environment.getExternalStorageDirectory();
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + date);
+            String dirname = "/ServiceAssistant/" + date + "/";
+            File file2 = new File(root.getAbsolutePath() + "/ServiceAssistant/" + date + "/" + date + "mags.txt");
+            FileOperations FO = new FileOperations();
+            FO.removeOneToData(file2, dirname, mDbxAcctMgr);
+            getPrefs();
+            updateUIElement(file2, R.id.magazineCounter);
+        }
+
+
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
+            Log.d("GESTURES", "onFling: " + event1.toString() + event2.toString());
+            DateOperations DO = new DateOperations();
+            String date = DO.getdateFile();
+            File root = android.os.Environment.getExternalStorageDirectory();
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + date);
+            String dirname = "/ServiceAssistant/" + date + "/";
+            File file2 = new File(root.getAbsolutePath() + "/ServiceAssistant/" + date + "/" + date + "mags.txt");
+            FileOperations FO = new FileOperations();
+            FO.removeOneToData(file2, dirname, mDbxAcctMgr);
+            getPrefs();
+            updateUIElement(file2, R.id.magazineCounter);
+            return true;
+        }
+    }
+
+    private class GestureRevDectection implements GestureDetector.OnGestureListener {
+
+
+        @Override
+        public boolean onDown(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent motionEvent) {
+
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent motionEvent) {
+            DateOperations DO = new DateOperations();
+            String date = DO.getdateFile();
+            File root = android.os.Environment.getExternalStorageDirectory();
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + date);
+            String dirname = "/ServiceAssistant/" + date + "/";
+            File file2 = new File(root.getAbsolutePath() + "/ServiceAssistant/" + date + "/" + date + "revs.txt");
+            FileOperations FO = new FileOperations();
+            int elementID11 = R.id.HourCount;
+            FO.addOneToData(file2, dirname, mDbxAcctMgr);
+            updateUIElement(file2, R.id.rvcounter);
+            getPrefs();
+            return false;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float v, float v2) {
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent motionEvent) {
+            DateOperations DO = new DateOperations();
+            String date = DO.getdateFile();
+            File root = android.os.Environment.getExternalStorageDirectory();
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + date);
+            String dirname = "/ServiceAssistant/" + date + "/";
+            File file2 = new File(root.getAbsolutePath() + "/ServiceAssistant/" + date + "/" + date + "revs.txt");
+            FileOperations FO = new FileOperations();
+            FO.removeOneToData(file2, dirname, mDbxAcctMgr);
+            getPrefs();
+            updateUIElement(file2, R.id.rvcounter);
+        }
+
+
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
+            Log.d("GESTURES", "onFling: " + event1.toString() + event2.toString());
+            DateOperations DO = new DateOperations();
+            String date = DO.getdateFile();
+            File root = android.os.Environment.getExternalStorageDirectory();
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + date);
+            String dirname = "/ServiceAssistant/" + date + "/";
+            File file2 = new File(root.getAbsolutePath() + "/ServiceAssistant/" + date + "/" + date + "revs.txt");
+            FileOperations FO = new FileOperations();
+            FO.removeOneToData(file2, dirname, mDbxAcctMgr);
+            getPrefs();
+            updateUIElement(file2, R.id.rvcounter);
+            return true;
+        }
     }
 }
 

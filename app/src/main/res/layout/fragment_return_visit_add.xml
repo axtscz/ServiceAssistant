@@ -1,0 +1,124 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.collusion.serviceassistant.ReturnVisits.ReturnVisitAdd"
+    android:background="#009688">
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/Name"
+        android:layout_marginTop="20dp"
+        android:hint="Name"
+        android:textColorHint="#e0f2f1"
+        android:textColor="#e0f2f1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPostalAddress"
+        android:ems="10"
+        android:id="@+id/Address"
+        android:layout_below="@+id/Name"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="@string/addressHint"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textColorHint="#e0f2f1"
+        android:textColor="#e0f2f1" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="time"
+        android:ems="10"
+        android:id="@+id/time"
+        android:hint="Time"
+        android:textColorHint="#e0f2f1"
+        android:textColor="#e0f2f1"
+        android:layout_below="@+id/city"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="10dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="date"
+        android:ems="10"
+        android:id="@+id/date"
+        android:layout_alignTop="@+id/time"
+        android:layout_toRightOf="@+id/time"
+        android:hint="Date"
+        android:textColorHint="#e0f2f1"
+        android:textColor="#e0f2f1" />
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/saveButton1"
+        android:id="@+id/saveButton1"
+        android:background="#00796b"
+        android:layout_alignParentBottom="true"
+        android:layout_alignEnd="@+id/date" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/city"
+        android:layout_below="@+id/Address"
+        android:layout_alignParentStart="true"
+        android:hint="City"
+        android:textColorHint="#e0f2f1"
+        android:textColor="#e0f2f1"
+        android:layout_toLeftOf="@+id/state" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/state"
+        android:textColor="#e0f2f1"
+        android:textColorHint="#e0f2f1"
+        android:hint="State"
+        android:layout_below="@+id/Address"
+        android:layout_alignParentEnd="true" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/saveButton1"
+        android:layout_alignParentStart="true">
+
+        <NumberPicker
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/placement"
+            android:layout_above="@+id/saveButton1"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="53dp" />
+    </LinearLayout>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/location"
+        android:src="@drawable/ic_action_place"
+        android:contentDescription="Location"
+        android:layout_above="@+id/Address"
+        android:layout_toRightOf="@+id/Name" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/filter"
+        android:layout_below="@+id/time"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

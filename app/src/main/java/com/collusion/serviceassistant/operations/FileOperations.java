@@ -1,19 +1,4 @@
-package com.collusion.serviceassistant;
-
-import android.app.Activity;
-import android.content.Context;
-import android.util.Log;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
-
+package com.collusion.serviceassistant.operations;
 
 import android.util.Log;
 
@@ -27,7 +12,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -153,7 +137,6 @@ public class FileOperations
         String filename;
         File folder = new File(dirname);
         File[] listOfFiles = folder.listFiles();
-
         for (int i = 0; i < listOfFiles.length; i++)
         {
 
@@ -162,9 +145,12 @@ public class FileOperations
                 files = listOfFiles[i].getName();
                 if (files.endsWith(".txt") || files.endsWith(".TXT"))
                 {
-                    filename = listOfFiles[i].getName();
-                    //Log.i("INFO", files);
-                    filelist.add(filename);
+                    int length = files.length();
+                    if (length >= 5) {
+                        filename = listOfFiles[i].getName();
+                        //Log.i("INFO", files);
+                        filelist.add(filename);
+                    }
                 }
             }
         }
@@ -262,5 +248,53 @@ public class FileOperations
             }
         }
         return file1;
+    }
+
+    public void writeRV(File file, String name, String Address, String day, String placement, String longi, String lat, String dayofWeek)
+    {
+        if (file.exists())
+        {
+            try {
+                FileOutputStream f = new FileOutputStream(file);
+                PrintWriter pw = new PrintWriter(f);
+                pw.print(name + "\n");
+                pw.print(Address + "\n");
+                pw.print(day + "\n");
+                pw.print(placement + "\n");
+                pw.print(longi + "\n");
+                pw.print(lat + "\n");
+                pw.print(dayofWeek);
+                pw.flush();
+                pw.close();
+                f.close();
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else
+        {
+            try {
+                FileOutputStream f = new FileOutputStream(file);
+                PrintWriter pw = new PrintWriter(f);
+                pw.print(name + "\n");
+                pw.print(Address + "\n");
+                pw.print(day + "\n");
+                pw.print(placement + "\n");
+                pw.print(longi + "\n");
+                pw.print(lat + "\n");
+                pw.print(dayofWeek);
+                pw.flush();
+                pw.close();
+                f.close();
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

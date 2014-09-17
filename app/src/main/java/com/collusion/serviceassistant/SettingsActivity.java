@@ -1,16 +1,10 @@
 package com.collusion.serviceassistant;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.media.Ringtone;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
@@ -18,14 +12,9 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
-import android.text.TextUtils;
+import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
-import android.view.View;
-import android.widget.Toast;
-
-import com.collusion.serviceassistant.R;
 
 import java.util.List;
 
@@ -126,9 +115,9 @@ public class SettingsActivity extends PreferenceActivity {
         addPreferencesFromResource(R.xml.pref_data_sync);
 
         fakeHeader = new PreferenceCategory(this);
-        fakeHeader.setTitle(R.string.customization);
+        fakeHeader.setTitle(R.string.pref_header_location);
         getPreferenceScreen().addPreference(fakeHeader);
-        addPreferencesFromResource(R.xml.customization);
+        addPreferencesFromResource(R.xml.pref_notification);
 
         // Bind the summaries of EditText/List/Dialog/Ringtone preferences to
         // their values. When their values change, their summaries are updated

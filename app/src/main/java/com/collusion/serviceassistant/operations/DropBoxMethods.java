@@ -1,8 +1,6 @@
-package com.collusion.serviceassistant;
+package com.collusion.serviceassistant.operations;
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.DropBoxManager;
 import android.util.Log;
 
 import com.dropbox.sync.android.DbxAccountManager;
@@ -12,8 +10,6 @@ import com.dropbox.sync.android.DbxFileInfo;
 import com.dropbox.sync.android.DbxFileSystem;
 import com.dropbox.sync.android.DbxPath;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;

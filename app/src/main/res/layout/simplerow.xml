@@ -14,7 +14,8 @@
         android:text="Month"
         android:layout_alignParentTop="true"
         android:layout_alignLeft="@+id/data"
-        android:layout_alignStart="@+id/data" />
+        android:layout_alignStart="@+id/data"
+        android:textSize="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -35,5 +36,16 @@
         android:id="@+id/filename"
         android:layout_above="@+id/data"
         android:layout_toRightOf="@+id/data"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/textView"
+        android:layout_below="@+id/data"
+        android:layout_alignLeft="@+id/data"
+        android:layout_alignStart="@+id/data"
         android:visibility="invisible" />
 </RelativeLayout>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:onClick="rvClick"
+    >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/nameView"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/addressView"
+        android:layout_below="@+id/nameView"
+        android:layout_alignLeft="@+id/nameView"
+        android:layout_alignStart="@+id/nameView"
+        android:layout_marginBottom="2dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fileview"
+        android:layout_alignTop="@+id/nameView"
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/textView"
+        android:visibility="invisible"
+        android:layout_below="@+id/latlong"
+        android:layout_alignEnd="@+id/addressView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Small Text"
+        android:id="@+id/latitude"
+        android:visibility="invisible"
+        android:layout_alignBaseline="@+id/nameView"
+        android:layout_alignBottom="@+id/nameView"
+        android:layout_toRightOf="@+id/latlong" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/longitude"
+        android:visibility="invisible"
+        android:layout_above="@+id/addressView"
+        android:layout_toRightOf="@+id/fileview" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/latlong"
+        android:layout_below="@+id/addressView"
+        android:layout_toRightOf="@+id/nameView"
+        android:visibility="invisible" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Mo"
+        android:id="@+id/monday"
+        android:textColor="#caabadae"
+        android:layout_above="@+id/textView"
+        android:layout_alignStart="@+id/addressView"
+        android:layout_marginRight="3dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Tu"
+        android:id="@+id/Tuesday"
+        android:textColor="#caabadae"
+        android:layout_alignTop="@+id/monday"
+        android:layout_toRightOf="@+id/monday"
+        android:layout_marginRight="3dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="We"
+        android:id="@+id/wednesday"
+        android:textColor="#caabadae"
+        android:layout_alignTop="@+id/monday"
+        android:layout_toRightOf="@+id/Tuesday"
+        android:layout_marginRight="3dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Th"
+        android:id="@+id/thursday"
+        android:textColor="#caabadae"
+        android:layout_above="@+id/textView"
+        android:layout_toRightOf="@+id/wednesday"
+        android:layout_marginRight="3dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Fr"
+        android:id="@+id/friday"
+        android:textColor="#caabadae"
+        android:layout_above="@+id/textView"
+        android:layout_toRightOf="@+id/thursday"
+        android:layout_marginRight="3dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Sa"
+        android:id="@+id/saturday"
+        android:textColor="#caabadae"
+        android:layout_alignBottom="@+id/latlong"
+        android:layout_toRightOf="@+id/friday"
+        android:layout_marginRight="3dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Su"
+        android:id="@+id/sunday"
+        android:textColor="#caabadae"
+        android:layout_alignTop="@+id/saturday"
+        android:layout_toRightOf="@+id/saturday"
+        android:layout_marginRight="3dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="0.0 mi"
+        android:id="@+id/distance"
+        android:layout_alignBottom="@+id/longitude"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="18dp"
+        android:textSize="15dp" />
+</RelativeLayout>

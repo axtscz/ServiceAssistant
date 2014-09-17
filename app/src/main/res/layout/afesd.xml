@@ -4,7 +4,8 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_height="wrap_content"
-        android:layout_width="wrap_content">
+        android:layout_width="wrap_content"
+        android:id="@+id/scrollView">
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent" android:layout_height="match_parent"
             android:background="#009688">
@@ -35,9 +36,9 @@
                 android:id="@+id/HourLabel1"
                 android:textSize="50sp"
                 android:layout_gravity="center_horizontal|top"
-                android:textColor="#e0f2f1"
                 android:layout_alignParentTop="true"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:textColor="#e0f2f1" />
 
             <TextView
                 android:layout_width="fill_parent"
@@ -153,7 +154,7 @@
                 android:text="@string/Books"
                 android:id="@+id/bookLabel"
                 android:textColor="#e0f2f1"
-                android:layout_alignParentBottom="true"
+                android:layout_below="@+id/bookCounter"
                 android:layout_alignLeft="@+id/bookCounter"
                 android:layout_alignStart="@+id/bookCounter" />
 
@@ -165,8 +166,7 @@
                 android:layout_gravity="center_horizontal"
                 android:textColor="#e0f2f1"
                 android:layout_below="@+id/goalButton"
-                android:layout_alignRight="@+id/HoursToGo"
-                android:layout_alignEnd="@+id/HoursToGo" />
+                android:layout_centerHorizontal="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -191,6 +191,13 @@
                 android:layout_centerHorizontal="true"
                 android:visibility="invisible" />
 
+            <Space
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_below="@+id/bookLabel"
+                android:layout_centerHorizontal="true" />
+
         </RelativeLayout>
     </ScrollView>
+
 </RelativeLayout>

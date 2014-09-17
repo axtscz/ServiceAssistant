@@ -18,10 +18,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-import com.dropbox.*;
 
-import com.collusion.serviceassistant.NavDrawerListAdapter;
-import com.collusion.serviceassistant.NavDrawerItem;
+import com.collusion.serviceassistant.ReturnVisits.ReturnVisitDetails;
+import com.collusion.serviceassistant.ReturnVisits.ReturnVisits;
 import com.dropbox.sync.android.DbxAccountManager;
 
 import java.util.ArrayList;
@@ -73,7 +72,7 @@ public class MainActivity extends Activity {
 		// Photos
 		navDrawerItems.add(new NavDrawerItem(navMenuTitles[2], navMenuIcons.getResourceId(2, -1)));
 		// Communities, Will add a counter here
-		//navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1), true, "22"));
+		navDrawerItems.add(new NavDrawerItem(navMenuTitles[3], navMenuIcons.getResourceId(3, -1)));
 		// Pages
 		//navDrawerItems.add(new NavDrawerItem(navMenuTitles[4], navMenuIcons.getResourceId(4, -1)));
 		// What's hot, We  will add a counter here
@@ -182,9 +181,9 @@ public class MainActivity extends Activity {
 		case 2:
 			fragment = new TractCounter();
 			break;
-		//case 4:
-			//fragment = new PagesFragment();
-			//break;
+		case 3:
+			fragment = new ReturnVisits();
+			break;
 		//case 5:
 			//fragment = new WhatsHotFragment();
 			//break;
@@ -196,6 +195,10 @@ public class MainActivity extends Activity {
 		if (fragment != null) {
 			FragmentManager fragmentManager = getFragmentManager();
 			fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_up,
+                            R.anim.slide_down,
+                            R.anim.slide_up,
+                            R.anim.slide_down)
 					.replace(R.id.frame_container, fragment).commit();
 
 			// update selected item and title, then close the drawer
@@ -276,6 +279,47 @@ public class MainActivity extends Activity {
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    public void rvClick(View view)
+    {
+
+        TextView name = (TextView)view.findViewById(R.id.nameView);
+        String nameStr = name.getText().toString();
+
+        TextView address = (TextView)view.findViewById(R.id.addressView);
+        String addressStr = address.getText().toString();
+
+        TextView longitude = (TextView)view.findViewById(R.id.longitude);
+        String longstr = longitude.getText().toString();
+
+        TextView latitude = (TextView)view.findViewById(R.id.latitude);
+        String latstr = latitude.getText().toString();
+
+        TextView latlng = (TextView)view.findViewById(R.id.latlong);
+        String latlongstr = latlng.getText().toString();
+
+        Log.i("Numbers", longstr);
+        Log.i("Numbers", latlongstr);
+
+        SharedPreferences.Editor editor = getSharedPreferences("rvs", Context.MODE_PRIVATE).edit();
+
+        editor.putString("name", nameStr);
+        editor.putString("address", addressStr);
+        editor.putString("lat", latstr);
+        editor.putString("long", longstr);
+        editor.putString("latlong", latlongstr);
+        editor.apply();
+        /*
+        Intent intent = new Intent(this, mapsActivity.class);
+        startActivity(intent);
+        */
+        Fragment fragment = new ReturnVisitDetails();
+
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.frame_container, fragment).commit();
+
     }
 
 }
