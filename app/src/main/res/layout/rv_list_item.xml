@@ -32,7 +32,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/fileview"
+        android:id="@+id/rvFileName"
         android:layout_alignTop="@+id/nameView"
         android:layout_centerHorizontal="true"
         android:visibility="invisible" />
@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="Small Text"
-        android:id="@+id/textView"
+        android:id="@+id/dayofWeek"
         android:visibility="invisible"
         android:layout_below="@+id/latlong"
         android:layout_alignEnd="@+id/addressView" />
@@ -65,7 +65,7 @@
         android:id="@+id/longitude"
         android:visibility="invisible"
         android:layout_above="@+id/addressView"
-        android:layout_toRightOf="@+id/fileview" />
+        android:layout_toRightOf="@+id/rvFileName" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -83,9 +83,10 @@
         android:text="Mo"
         android:id="@+id/monday"
         android:textColor="#caabadae"
-        android:layout_above="@+id/textView"
+        android:layout_above="@+id/dayofWeek"
         android:layout_alignStart="@+id/addressView"
-        android:layout_marginRight="3dp" />
+        android:layout_marginRight="3dp"
+        android:fontFamily="sans-serif-light"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -96,7 +97,7 @@
         android:textColor="#caabadae"
         android:layout_alignTop="@+id/monday"
         android:layout_toRightOf="@+id/monday"
-        android:layout_marginRight="3dp" />
+        android:layout_marginRight="3dp" android:fontFamily="sans-serif-light"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -107,7 +108,7 @@
         android:textColor="#caabadae"
         android:layout_alignTop="@+id/monday"
         android:layout_toRightOf="@+id/Tuesday"
-        android:layout_marginRight="3dp" />
+        android:layout_marginRight="3dp" android:fontFamily="sans-serif-light"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -116,9 +117,9 @@
         android:text="Th"
         android:id="@+id/thursday"
         android:textColor="#caabadae"
-        android:layout_above="@+id/textView"
+        android:layout_above="@+id/dayofWeek"
         android:layout_toRightOf="@+id/wednesday"
-        android:layout_marginRight="3dp" />
+        android:layout_marginRight="3dp" android:fontFamily="sans-serif-light"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -127,9 +128,9 @@
         android:text="Fr"
         android:id="@+id/friday"
         android:textColor="#caabadae"
-        android:layout_above="@+id/textView"
+        android:layout_above="@+id/dayofWeek"
         android:layout_toRightOf="@+id/thursday"
-        android:layout_marginRight="3dp" />
+        android:layout_marginRight="3dp" android:fontFamily="sans-serif-light"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -140,7 +141,7 @@
         android:textColor="#caabadae"
         android:layout_alignBottom="@+id/latlong"
         android:layout_toRightOf="@+id/friday"
-        android:layout_marginRight="3dp" />
+        android:layout_marginRight="3dp" android:fontFamily="sans-serif-light"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -151,7 +152,8 @@
         android:textColor="#caabadae"
         android:layout_alignTop="@+id/saturday"
         android:layout_toRightOf="@+id/saturday"
-        android:layout_marginRight="3dp" />
+        android:layout_marginRight="3dp" android:fontFamily="sans-serif-light"
+        android:layout_marginLeft="3dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -162,5 +164,6 @@
         android:layout_alignBottom="@+id/longitude"
         android:layout_alignParentEnd="true"
         android:layout_marginRight="18dp"
-        android:textSize="15dp" />
+        android:textSize="15dp"
+        android:fontFamily="sans-serif-light"/>
 </RelativeLayout>

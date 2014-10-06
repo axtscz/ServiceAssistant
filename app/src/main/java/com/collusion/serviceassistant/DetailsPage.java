@@ -115,7 +115,7 @@ public class DetailsPage extends Activity{
 
 
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, "My field service report: " + "\n" +
+        sendIntent.putExtra(Intent.EXTRA_TEXT, R.id.myreport + "\n" +
                                                 "Hours: " + hoursStr + "\n" +
                                                 "Magazines: " + magsStr + "\n" +
                                                 "Return Visits: " + rvsStr + "\n" +

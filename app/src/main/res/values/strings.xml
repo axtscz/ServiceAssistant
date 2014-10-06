@@ -17,12 +17,22 @@
         <item>What\'s Hot</item>
     </string-array>
     <string-array name="publications">
-        <item>Bible Teach</item>
-        <item>Good News</item>
-        <item>Watchtower &amp; Awake</item>
-        <item>Tract</item>
+        <item>What does the Bible Really Teach?</item>
+
+
+        <item>How Do You View the Future?</item>
+        <item>What Is the Key to Happy Family Life?</item>
+        <item>Who Really Controls the World?</item>
+        <item>Will Suffering Ever End?</item>
+        <item>Can the Dead Really Live Again?</item>
+
         <item>Listen to God</item>
-        <item>Listen to God and live Forever</item>
+        <item>Listen to God and Live Forever</item>
+        <item>You Can Be God\'s Friend</item>
+        <item>How Can You Have a Happy Life?</item>
+        <item>Good News From God!</item>
+
+        <item>Watchtower &amp; Awake</item>
     </string-array>
 
     <!-- Nav Drawer List Item Icons -->
@@ -66,5 +76,11 @@
     <string name="default_city_title">Default City</string>
     <string name="default_state_title">Default State</string>
     <string name="default_state">Sets a default state for Return Visit addresses e.g.(KY)</string>
+    <string name="title_activity_return_visit_viewer">ReturnVisitViewer</string>
+    <string name="placed">Placed: </string>
+    <string name="dayofweek">Day of the week: </string>
+    <string name="startBtn">Start</string>
+    <string name="stop">Stop</string>
+    <string name="add">Add</string>
 
 </resources>

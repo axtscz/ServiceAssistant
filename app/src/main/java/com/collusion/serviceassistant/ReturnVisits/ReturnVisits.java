@@ -148,6 +148,7 @@ public class ReturnVisits extends Fragment {
         List<ReturnVisit> listRV = new ArrayList<ReturnVisit>();
 
         Double distance;
+        String distanceStr;
 
         List<String> files = FO.getFileList(file2);
         String[] Files = new String[files.size()];
@@ -175,23 +176,31 @@ public class ReturnVisits extends Fragment {
                 double lat = Double.parseDouble(latitudeStr);
                 double longi = Double.parseDouble(longitudeStr);
                 distance = distance(lat,longi);
+                //Log.i("Distance", Double.toString(distance));
+                if (distance == 1000000000000000000.00)
+                {
+                    distanceStr = "null";
+                }
+                else {
+                    distanceStr = Double.toString(distance);
+                }
             }
             else
             {
-                distance = 0.0;
+                distanceStr = "null";
             }
 
-            String distanceStr = Double.toString(distance);
+            Log.i("Distance", distanceStr);
 
             if (filter.equals("Any"))
             {
-                listRV.add(new ReturnVisit(name, address, filename, latitudeStr, longitudeStr, ltlng, dayofweekSTR, distanceStr));
+                listRV.add(new ReturnVisit(name, address,file1.toString(), latitudeStr, longitudeStr, ltlng, dayofweekSTR, distanceStr, ""));
             }
             else
             {
                 if (dayofweekSTR.equals(filter))
                     {
-                        listRV.add(new ReturnVisit(name, address, filename, latitudeStr, longitudeStr, ltlng, dayofweekSTR, distanceStr));
+                        listRV.add(new ReturnVisit(name, address, file1.toString(), latitudeStr, longitudeStr, ltlng, dayofweekSTR, distanceStr, ""));
                     }
                 else
                     {
@@ -199,15 +208,6 @@ public class ReturnVisits extends Fragment {
                     }
             }
 
-            /*
-            Name.add(name);
-            Address.add(address);
-            filenameList.add(filename);
-            latitude.add(latitudeStr);
-            longitude.add(longitudeStr);
-            latlng.add(ltlng);
-            dayofWeek.add(dayofweekSTR);
-            distances.add(distanceStr);*/
 
             Log.i("RV", name);
             i++;
@@ -263,6 +263,7 @@ public class ReturnVisits extends Fragment {
 
         String[] distancesArray = new String[distances.size()];
         distances.toArray(distancesArray);
+        Log.i("Distance", distancesArray.toString());
 
         Collections.sort(listRV);
         System.out.println(" ");
@@ -281,32 +282,35 @@ public class ReturnVisits extends Fragment {
     }
 
 
-    public double distance(double lat2, double long2)
-    {
-        LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+    public double distance(double lat2, double long2) {
+        LocationManager lm = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        double longitude = location.getLongitude();
-        double latitude = location.getLatitude();
-        Log.i("Numbers", Double.toString(latitude));
-        Log.i("Numbers", Double.toString(longitude));
-        Log.i("Numbers", Double.toString(lat2));
-        Log.i("Numbers", Double.toString(long2));
+        if (location != null) {
+            double longitude = location.getLongitude();
+            double latitude = location.getLatitude();
+            Log.i("Distance", "GPS not Null!");
+            Log.i("Numbers", Double.toString(latitude));
+            Log.i("Numbers", Double.toString(longitude));
+            Log.i("Numbers", Double.toString(lat2));
+            Log.i("Numbers", Double.toString(long2));
 
-        double R = 6371; // km
-        double er1 = Math.toRadians(latitude);
-        double er2 = Math.toRadians(lat2);
-        double er3 = Math.toRadians(lat2 - latitude);
-        double er4 = Math.toRadians(long2 - longitude);
+            double R = 6371; // km
+            double er1 = Math.toRadians(latitude);
+            double er2 = Math.toRadians(lat2);
+            double er3 = Math.toRadians(lat2 - latitude);
+            double er4 = Math.toRadians(long2 - longitude);
 
-        double a = Math.sin(er3/2) * Math.sin(er3/2) +
-                Math.cos(er1) * Math.cos(er2) *
-                        Math.sin(er4/2) * Math.sin(er4/2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            double a = Math.sin(er3 / 2) * Math.sin(er3 / 2) +
+                    Math.cos(er1) * Math.cos(er2) *
+                            Math.sin(er4 / 2) * Math.sin(er4 / 2);
+            double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-        double d = R * c;
-        d = d * 0.6214;
-        d = (double)Math.round(d * 100) / 100;
-        Log.i("Distance", Double.toString(d));
-        return d;
+            double d = R * c;
+            d = d * 0.6214;
+            d = (double) Math.round(d * 100) / 100;
+            Log.i("Distance", Double.toString(d));
+            return d;
+        }
+        return 1000000000000000000.00;
     }
 }

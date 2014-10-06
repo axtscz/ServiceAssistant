@@ -21,12 +21,15 @@ import android.widget.TextView;
 
 import com.collusion.serviceassistant.ReturnVisits.ReturnVisitDetails;
 import com.collusion.serviceassistant.ReturnVisits.ReturnVisits;
+import com.collusion.serviceassistant.operations.BaseDemoActivity;
 import com.dropbox.sync.android.DbxAccountManager;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
 
 public class MainActivity extends Activity {
-	private DrawerLayout mDrawerLayout;
+    private static final int RESOLVE_CONNECTION_REQUEST_CODE = 0;
+    private DrawerLayout mDrawerLayout;
 	private ListView mDrawerList;
 	private ActionBarDrawerToggle mDrawerToggle;
 
@@ -44,8 +47,12 @@ public class MainActivity extends Activity {
 	private NavDrawerListAdapter adapter;
 
     private DbxAccountManager mDbxAcctMgr;
+    GoogleApiClient mGoogleApiClient;
+    private int requestCode;
+    private int resultCode;
+    private Intent data;
 
-	@Override
+    @Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -116,7 +123,22 @@ public class MainActivity extends Activity {
 			// on first time display view for first nav item
 			displayView(0);
 		}
-	}
+
+    }
+
+    @Override
+    protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
+        this.requestCode = requestCode;
+        this.resultCode = resultCode;
+        this.data = data;
+        switch (requestCode) {
+            case RESOLVE_CONNECTION_REQUEST_CODE:
+                if (resultCode == RESULT_OK) {
+                    mGoogleApiClient.connect();
+                }
+                break;
+        }
+    }
 
 	/**
 	 * Slide menu item click listener
@@ -179,7 +201,7 @@ public class MainActivity extends Activity {
 			fragment = new HistoryFragment();
 			break;
 		case 2:
-			fragment = new TractCounter();
+			//fragment = new TractCounter();
 			break;
 		case 3:
 			fragment = new ReturnVisits();
@@ -268,22 +290,11 @@ public class MainActivity extends Activity {
         mDbxAcctMgr.startLink((Activity)this, 0);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 0) {
-            if (resultCode == Activity.RESULT_OK) {
-                // ... Start using Dropbox files.
-            } else {
-                // ... Link failed or was cancelled by the user.
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
 
     public void rvClick(View view)
     {
 
+        Log.i("TRANSITION", "STARTING TRANSITION");
         TextView name = (TextView)view.findViewById(R.id.nameView);
         String nameStr = name.getText().toString();
 
@@ -299,6 +310,10 @@ public class MainActivity extends Activity {
         TextView latlng = (TextView)view.findViewById(R.id.latlong);
         String latlongstr = latlng.getText().toString();
 
+        TextView filename = (TextView)view.findViewById(R.id.rvFileName);
+        String filenamestr = filename.getText().toString();
+
+
         Log.i("Numbers", longstr);
         Log.i("Numbers", latlongstr);
 
@@ -309,6 +324,7 @@ public class MainActivity extends Activity {
         editor.putString("lat", latstr);
         editor.putString("long", longstr);
         editor.putString("latlong", latlongstr);
+        editor.putString("filename", filenamestr);
         editor.apply();
         /*
         Intent intent = new Intent(this, mapsActivity.class);

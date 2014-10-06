@@ -46,7 +46,7 @@ public class ReturnVisitList extends ArrayAdapter<String> {
         View rowView= inflater.inflate(R.layout.rv_list_item, null, true);
         TextView txtTitle = (TextView) rowView.findViewById(R.id.nameView);
         TextView txtData = (TextView) rowView.findViewById(R.id.addressView);
-        TextView txtFilename = (TextView) rowView.findViewById(R.id.fileview);
+        TextView txtFilename = (TextView) rowView.findViewById(R.id.rvFileName);
         TextView longi = (TextView) rowView.findViewById(R.id.longitude);
         TextView lat = (TextView) rowView.findViewById(R.id.latitude);
         TextView latlongtv = (TextView) rowView.findViewById(R.id.latlong);

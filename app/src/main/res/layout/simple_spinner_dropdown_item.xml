@@ -11,4 +11,5 @@
     android:gravity="center_vertical"
     android:paddingLeft="5dp"
     android:background="#26a69a"
-    android:textColor="#e0f2f1" />
+    android:textColor="#e0f2f1"
+    android:textSize="17dp" />

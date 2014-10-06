@@ -26,11 +26,11 @@
         revision="20.0.0"
         sha1="f71a6822470c9eb659d4f4a6cb57b780b35f058b"/>
     <item
-        dex="C:\Users\Antonio\Downloads\SlidingMenu1\app\build\intermediates\pre-dexed\debug\classes-70cf9ebf1d3380d607ac2fd31235435a635e05c6.jar"
-        jar="C:\Users\Antonio\Downloads\SlidingMenu1\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\5.2.08\classes.jar"
+        dex="C:\Users\Antonio\Downloads\SlidingMenu1\app\build\intermediates\pre-dexed\debug\classes-7bd35178c84c803715e728a7398485f2dcdf67f5.jar"
+        jar="C:\Users\Antonio\Downloads\SlidingMenu1\app\build\intermediates\exploded-aar\com.google.android.gms\play-services\5.0.89\classes.jar"
         jumboMode="false"
         revision="20.0.0"
-        sha1="1ed7a7a05185651f9af41ad93711cb96b66f331c"/>
+        sha1="d71573c9c5ea98a8db47ad6ff993a63d492b3bfa"/>
     <item
         dex="C:\Users\Antonio\Downloads\SlidingMenu1\app\build\intermediates\pre-dexed\debug\classes-951e2c0c6fdcf56b74b6aa654eff28589599c8ac.jar"
         jar="C:\Users\Antonio\Downloads\SlidingMenu1\app\build\intermediates\exploded-aar\com.android.support\support-v4\20.0.0\classes.jar"

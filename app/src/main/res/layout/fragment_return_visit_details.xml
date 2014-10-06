@@ -15,8 +15,7 @@
         android:textColor="#e0f2f1"
         android:textSize="40dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="10dp" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -24,9 +23,44 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Medium Text"
         android:id="@+id/detailsAddress"
-        android:layout_below="@+id/detailsName"
-        android:layout_alignParentStart="true"
-        android:textSize="15dp"
+        android:textSize="20dp"
         android:textColor="#e0f2f1"
-        android:layout_marginLeft="10dp" />
+        android:layout_below="@+id/detailsName"
+        android:layout_centerHorizontal="true"
+        android:singleLine="true" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Open in Maps"
+        android:id="@+id/mapsOpen"
+        android:background="#00796b"
+        android:textColor="#e0f2f1"
+        android:layout_below="@+id/textView2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="104dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/placed"
+        android:id="@+id/dayofWeek"
+        android:textColor="#e0f2f1"
+        android:layout_below="@+id/detailsAddress"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/dayofweek"
+        android:id="@+id/textView2"
+        android:layout_below="@+id/dayofWeek"
+        android:layout_alignLeft="@+id/dayofWeek"
+        android:layout_alignStart="@+id/dayofWeek"
+        android:textColor="#e0f2f1" />
 </RelativeLayout>

@@ -15,6 +15,7 @@ import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.view.GestureDetectorCompat;
 import android.util.Log;
@@ -30,6 +31,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextSwitcher;
@@ -47,6 +49,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Calendar;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class HomeFragment extends Fragment{
     private static final String APP_SECRET = "29dhk340mmpecsj";
@@ -74,6 +77,12 @@ public class HomeFragment extends Fragment{
     int currentIndex=1;
 
     TextSwitcher mSwitcher;
+
+
+    //For Chronometer!
+    long timeWhenStopped = 0;
+
+    Integer goal;
 
     public HomeFragment(){}
 	
@@ -160,20 +169,32 @@ public class HomeFragment extends Fragment{
         bookUpdater();
         broUpdater();
 
+
+
         newFileMethods();
         getFolder();
 
         mDbxAcctMgr = DbxAccountManager.getInstance(getActivity().getApplicationContext(), APP_KEY, APP_SECRET);
-
-        if (mDbxAcctMgr.hasLinkedAccount() == true)
-        {
-            Log.i("DBX", "Linked!");
+        if (trueorfalse == true) {
+            if (mDbxAcctMgr.hasLinkedAccount()) {
+                Log.i("DBX", "Linked!");
+            } else {
+                mDbxAcctMgr.startLink(a, 0);
+            }
         }
-        else
-        {
-            mDbxAcctMgr.startLink(a, 0);
 
-        }
+        Button start = (Button)getView().findViewById(R.id.start);
+        start.setOnClickListener(startBtn);
+
+        Button stop = (Button)getView().findViewById(R.id.stp);
+        stop.setOnClickListener(stopBtn);
+
+        Button reset = (Button) getView().findViewById(R.id.resetBtn);
+        reset.setOnClickListener(resetbtn);
+
+        Button add = (Button) getView().findViewById(R.id.add);
+        add.setOnClickListener(addBtn);
+
         ConnectivityManager connManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 
@@ -199,14 +220,20 @@ public class HomeFragment extends Fragment{
         gesture();
         maggesture();
         revgesture();
+        brogesture();
+        bookgesture();
         slide();
         slideHoursInUpdate(file1);
         LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
         Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        double longitude = location.getLongitude();
-        double latitude = location.getLatitude();
-        String longstr = String.valueOf(longitude);
-        String latstr = String.valueOf(latitude);
+        String longstr = "";
+        String latstr = "";
+        if (location != null) {
+            double longitude = location.getLongitude();
+            double latitude = location.getLatitude();
+            longstr = String.valueOf(longitude);
+            latstr = String.valueOf(latitude);
+        }
         Log.i("LOCATION", "Longitude: " + longstr);
         Log.i("LOCATION", "Latitude: " + latstr);
         FileOperations FO = new FileOperations();
@@ -233,13 +260,109 @@ public class HomeFragment extends Fragment{
         Calendar cal = Calendar.getInstance();
         int currentDay = cal.get(Calendar.DAY_OF_MONTH);
         Log.i("INFO", String.valueOf(currentDay));
-        int secondsUntilday = 31-currentDay;
+        int secondsUntilday = 30-currentDay;
         secondsUntilday = secondsUntilday*24;
         secondsUntilday = secondsUntilday*60;
         secondsUntilday = secondsUntilday*60;
         Log.i("NUMBERS", String.valueOf(secondsUntilday));
         setupAlarm(secondsUntilday);
     }
+
+    View.OnClickListener startBtn = new View.OnClickListener() {
+        public void onClick(View v) {
+            Log.i("Chr", "Start!");
+            Chronometer timeElapsed  = (Chronometer) getView().findViewById(R.id.chronometer);
+            timeElapsed.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener(){
+                @Override
+                public void onChronometerTick(Chronometer cArg) {
+                    long time = SystemClock.elapsedRealtime() - cArg.getBase();
+                    int h   = (int)(time /3600000);
+                    int m = (int)(time - h*3600000)/60000;
+                    int s= (int)(time - h*3600000- m*60000)/1000 ;
+                    String hh = h < 10 ? "0"+h: h+"";
+                    String mm = m < 10 ? "0"+m: m+"";
+                    String ss = s < 10 ? "0"+s: s+"";
+                    cArg.setText(hh+":"+mm+":"+ss);
+                }
+            });
+            timeElapsed.setBase(SystemClock.elapsedRealtime() + timeWhenStopped);
+            timeElapsed.start();
+        }
+    };
+
+    View.OnClickListener stopBtn = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View view) {
+            Chronometer timeElapsed  = (Chronometer) getView().findViewById(R.id.chronometer);
+            timeWhenStopped = timeElapsed.getBase() - SystemClock.elapsedRealtime();
+            timeElapsed.stop();
+        }
+    };
+
+    View.OnClickListener addBtn = new View.OnClickListener()
+    {
+        @Override
+        public void onClick(View view) {
+            Chronometer timeElapsed  = (Chronometer) getView().findViewById(R.id.chronometer);
+            CharSequence getTime = timeElapsed.getText();
+            String time = getTime.toString();
+            String[] timeComp = time.split(":");
+            String minutesStr;
+            Log.i("INFO", timeComp[0]);
+            Log.i("INFO", timeComp[1]);
+            Log.i("INFO", timeComp[2]);
+            Integer hours = Integer.parseInt(timeComp[0]);
+            Integer minutes = Integer.parseInt(timeComp[1]);
+
+            if (minutes >=60)
+            {
+                Log.i("INFO", "Greater");
+                minutes = minutes - 60;
+                hours += 1;
+            }
+            if (minutes < 10)
+            {
+                Log.i("INFO", "less than 10");
+                minutesStr = "0" + minutes.toString();
+            }
+            else
+            {
+                Log.i("INFO", "Less than 10");
+                minutesStr = minutes.toString();
+
+            }
+            String floatHours = hours.toString() + "." + minutesStr;
+            double newData = Double.parseDouble(floatHours);
+            FileOperations FO = new FileOperations();
+            DateOperations DO = new DateOperations();
+            String date = DO.getdateFile();
+            File root = android.os.Environment.getExternalStorageDirectory();
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + date);
+            String dirname = "/ServiceAssistant/" + date + "/";
+            File file2 = new File(root.getAbsolutePath() + "/ServiceAssistant/" + date + "/" + date + "hour.txt");
+            FO.addOneToDataFloat(file2, dirname, mDbxAcctMgr, newData);
+
+            newProgressBarUpdate(goal);
+            slideHoursInUpdate(file2);
+            Log.i("FLOAT", floatHours);
+            Log.i("INFO", Double.toString(newData));
+
+            timeWhenStopped = 0;
+            timeElapsed.setText("00:00:00");
+            timeElapsed.stop();
+        }
+    };
+
+    View.OnClickListener resetbtn = new View.OnClickListener() {
+        public void onClick(View v) {
+            timeWhenStopped = 0;
+            Chronometer timeElapsed  = (Chronometer) getView().findViewById(R.id.chronometer);
+            timeElapsed.setText("00:00:00");
+            timeElapsed.stop();
+
+        }
+    };
 
     View.OnClickListener tapAddrevs = new View.OnClickListener() {
         public void onClick(View v) {
@@ -255,22 +378,6 @@ public class HomeFragment extends Fragment{
             updateUIElement(file1, elementid);
         }
     };
-/*
-    View.OnClickListener tapAddMags = new View.OnClickListener() {
-        public void onClick(View v) {
-            DateOperations DO = new DateOperations();
-            String CurrentMonthFilePath = DO.getdateFile();
-            File root = android.os.Environment.getExternalStorageDirectory();
-            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ CurrentMonthFilePath+"/", CurrentMonthFilePath + "mags.txt");
-            String dir = "/ServiceAssistant/"+ CurrentMonthFilePath+"/";
-            int elementid = R.id.magazineCounter;
-
-            FileOperations FO = new FileOperations();
-            FO.addOneToData(file1, dir, mDbxAcctMgr);
-            updateUIElement(file1, elementid);
-        }
-
-    };*/
     View.OnClickListener tapAddBros = new View.OnClickListener() {
         public void onClick(View v) {
             DateOperations DO = new DateOperations();
@@ -363,23 +470,6 @@ public class HomeFragment extends Fragment{
     }
 
 
-
-    View.OnClickListener tapAdd = new View.OnClickListener() {
-        public void onClick(View v) {
-            DateOperations DO = new DateOperations();
-            String CurrentMonthFilePath = DO.getdateFile();
-            File root = android.os.Environment.getExternalStorageDirectory();
-            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/"+ CurrentMonthFilePath+"/", CurrentMonthFilePath + "hour.txt");
-            String dir = "/ServiceAssistant/" + CurrentMonthFilePath + "/";
-
-            FileOperations FO = new FileOperations();
-            FO.addOneToData(file1, dir, mDbxAcctMgr);
-            FO.getOldData(file1, mDbxAcctMgr);
-            setHoursLabel();
-            getPrefs();
-        }
-    };
-
     private void setupAlarm(int seconds) {
         AlarmManager alarmManager = (AlarmManager) getActivity().getSystemService(getActivity().ALARM_SERVICE);
         Intent intent = new Intent(getActivity().getBaseContext(), onAlarmReceive.class);
@@ -464,6 +554,7 @@ public class HomeFragment extends Fragment{
         tv2.setText(final1);
         Log.i("INFO","Goal is: " + final1);
         Integer goalNum = sharedPrefs.getInt("Goal", -1);
+        goal = goalNum;
         newProgressBarUpdate(goalNum);
 
     }
@@ -497,55 +588,30 @@ public class HomeFragment extends Fragment{
         String date = DO.getdateFile();
 
         Calendar cal = Calendar.getInstance();
-        Integer currentDay = cal.get(Calendar.DAY_OF_MONTH);
 
         File root = android.os.Environment.getExternalStorageDirectory();
         java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + date + "/", date + "hour.txt");
 
         FileOperations FO = new FileOperations();
-
-
-        Integer mId = 001;
-
         ProgressBar pb = (ProgressBar) getView().findViewById(R.id.GoalBar);
-        String hoursToDate = FO.getOldData(file1, mDbxAcctMgr);
+        String hoursToDate = FO.getOldDataFloat(file1, mDbxAcctMgr);
+
+        String[] data = hoursToDate.split(Pattern.quote("."));
+        hoursToDate = data [0];
         Integer hourstoDate = Integer.parseInt(hoursToDate);
         pb.setMax(goalNum);
         pb.setProgress(hourstoDate);
 
         Integer hoursToGo = goalNum - hourstoDate;
-        String hoursToGoStr = Integer.toString(hoursToGo);
-
-/*
-        if (currentDay > 10) {
-            NotificationCompat.Builder mBuilder =
-                    new NotificationCompat.Builder(getActivity())
-                            .setSmallIcon(R.drawable.ic_history64)
-                            .setContentTitle("Goal update")
-                            .setContentText("You only need " + hoursToGoStr + " hours to reach this months goal");
-            Intent resultIntent = new Intent(String.valueOf(MainActivity.class));
-            TaskStackBuilder stackBuilder = TaskStackBuilder.create(getActivity());
-            stackBuilder.addParentStack(MainActivity.class);
-            stackBuilder.addNextIntent(resultIntent);
-            PendingIntent resultPendingIntent =
-                    stackBuilder.getPendingIntent(
-                            0,
-                            PendingIntent.FLAG_UPDATE_CURRENT
-                    );
-            mBuilder.setContentIntent(resultPendingIntent);
-            NotificationManager mNotificationManager =
-                    (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(mId, mBuilder.build());
-        }
-*/
         TextView left = (TextView) getView().findViewById(R.id.HoursToGo);
+        TextView exact = (TextView) getView().findViewById(R.id.exactHours);
         if (hoursToGo <= 0) {
             left.setText("You are done!");
         } else {
             left.setText("Hours to go: " + Integer.toString(hoursToGo));
         }
+        exact.setText("You have: " + data[0] + ":" + data[1]);
     }
-
     public void newReset()
     {
         DateOperations DO = new DateOperations();
@@ -641,7 +707,7 @@ public class HomeFragment extends Fragment{
             File file2 = new File(root.getAbsolutePath() + "/ServiceAssistant/" + date + "/" + date + "hour.txt");
             FileOperations FO = new FileOperations();
             int elementID11 = R.id.HourCount;
-            FO.addOneToData(file2, dirname, mDbxAcctMgr);
+            FO.addOneToDataFloat(file2, dirname, mDbxAcctMgr, 1.00);
             getPrefs();
             slideHoursInUpdate(file2);
             return false;
@@ -669,7 +735,7 @@ public class HomeFragment extends Fragment{
             File file2 = new File(root.getAbsolutePath() + "/ServiceAssistant/" + date + "/" + date + "hour.txt");
             FileOperations FO = new FileOperations();
             int elementID11 = R.id.HourCount;
-            FO.removeOneToData(file2, dirname, mDbxAcctMgr);
+            FO.removeOneToDataFloat(file2, dirname, mDbxAcctMgr);
             getPrefs();
             slideHoursInUpdate(file2);
             return true;
@@ -709,7 +775,9 @@ public class HomeFragment extends Fragment{
     public void slideHoursInUpdate(File file2)
     {
         FileOperations FO = new FileOperations();
-        final String data1 = FO.getOldData(file2, mDbxAcctMgr);
+        final String data1 = FO.getOldDataFloat(file2, mDbxAcctMgr);
+        String[] data = data1.split(Pattern.quote("."));
+        String data12 = data[0];
 
         mSwitcher = (TextSwitcher) getView().findViewById(R.id.textSwitcher2);
         Animation in = AnimationUtils.loadAnimation(getActivity(), android.R.anim.slide_in_left);
@@ -720,7 +788,7 @@ public class HomeFragment extends Fragment{
         mSwitcher.setOutAnimation(out);
 
         // Set the ViewFactory of the TextSwitcher that will create TextView object when asked
-        mSwitcher.setText(data1);
+        mSwitcher.setText(data12);
     }
 
     public void maggesture()
@@ -746,6 +814,35 @@ public class HomeFragment extends Fragment{
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 myGestREVDetector.onTouchEvent(motionEvent);
+                return true;
+
+            }
+
+        });
+    }
+
+    public void brogesture()
+    {
+        final GestureDetector myGestBroDetector = new GestureDetector(getActivity(), new GestureBroDectection());
+        TextView mainTextView = (TextView)getView().findViewById(R.id.brochureCounter);
+        mainTextView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                myGestBroDetector.onTouchEvent(motionEvent);
+                return true;
+
+            }
+
+        });
+    }
+    public void bookgesture()
+    {
+        final GestureDetector myGestBookDetector = new GestureDetector(getActivity(), new GestureBookDectection());
+        TextView mainTextView = (TextView)getView().findViewById(R.id.bookCounter);
+        mainTextView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                myGestBookDetector.onTouchEvent(motionEvent);
                 return true;
 
             }
@@ -883,6 +980,162 @@ public class HomeFragment extends Fragment{
             updateUIElement(file2, R.id.rvcounter);
             return true;
         }
+    }
+
+    private class GestureBroDectection implements GestureDetector.OnGestureListener {
+
+
+        @Override
+        public boolean onDown(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent motionEvent) {
+
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent motionEvent) {
+            DateOperations DO = new DateOperations();
+            String date = DO.getdateFile();
+            File root = android.os.Environment.getExternalStorageDirectory();
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + date);
+            String dirname = "/ServiceAssistant/" + date + "/";
+            File file2 = new File(root.getAbsolutePath() + "/ServiceAssistant/" + date + "/" + date + "bros.txt");
+            FileOperations FO = new FileOperations();
+            int elementID11 = R.id.HourCount;
+            FO.addOneToData(file2, dirname, mDbxAcctMgr);
+            updateUIElement(file2, R.id.brochureCounter);
+            getPrefs();
+            return false;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float v, float v2) {
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent motionEvent) {
+            DateOperations DO = new DateOperations();
+            String date = DO.getdateFile();
+            File root = android.os.Environment.getExternalStorageDirectory();
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + date);
+            String dirname = "/ServiceAssistant/" + date + "/";
+            File file2 = new File(root.getAbsolutePath() + "/ServiceAssistant/" + date + "/" + date + "bros.txt");
+            FileOperations FO = new FileOperations();
+            FO.removeOneToData(file2, dirname, mDbxAcctMgr);
+            getPrefs();
+            updateUIElement(file2, R.id.brochureCounter);
+        }
+
+
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
+            Log.d("GESTURES", "onFling: " + event1.toString() + event2.toString());
+            DateOperations DO = new DateOperations();
+            String date = DO.getdateFile();
+            File root = android.os.Environment.getExternalStorageDirectory();
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + date);
+            String dirname = "/ServiceAssistant/" + date + "/";
+            File file2 = new File(root.getAbsolutePath() + "/ServiceAssistant/" + date + "/" + date + "bros.txt");
+            FileOperations FO = new FileOperations();
+            FO.removeOneToData(file2, dirname, mDbxAcctMgr);
+            getPrefs();
+            updateUIElement(file2, R.id.brochureCounter);
+            return true;
+        }
+    }
+
+    private class GestureBookDectection implements GestureDetector.OnGestureListener {
+
+
+        @Override
+        public boolean onDown(MotionEvent motionEvent) {
+            return false;
+        }
+
+        @Override
+        public void onShowPress(MotionEvent motionEvent) {
+
+        }
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent motionEvent) {
+            DateOperations DO = new DateOperations();
+            String date = DO.getdateFile();
+            File root = android.os.Environment.getExternalStorageDirectory();
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + date);
+            String dirname = "/ServiceAssistant/" + date + "/";
+            File file2 = new File(root.getAbsolutePath() + "/ServiceAssistant/" + date + "/" + date + "book.txt");
+            FileOperations FO = new FileOperations();
+            int elementID11 = R.id.HourCount;
+            FO.addOneToData(file2, dirname, mDbxAcctMgr);
+            updateUIElement(file2, R.id.bookCounter);
+            getPrefs();
+            return false;
+        }
+
+        @Override
+        public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent2, float v, float v2) {
+            return false;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent motionEvent) {
+            DateOperations DO = new DateOperations();
+            String date = DO.getdateFile();
+            File root = android.os.Environment.getExternalStorageDirectory();
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + date);
+            String dirname = "/ServiceAssistant/" + date + "/";
+            File file2 = new File(root.getAbsolutePath() + "/ServiceAssistant/" + date + "/" + date + "book.txt");
+            FileOperations FO = new FileOperations();
+            FO.removeOneToData(file2, dirname, mDbxAcctMgr);
+            getPrefs();
+            updateUIElement(file2, R.id.bookCounter);
+        }
+
+
+        @Override
+        public boolean onFling(MotionEvent event1, MotionEvent event2, float velocityX, float velocityY) {
+            Log.d("GESTURES", "onFling: " + event1.toString() + event2.toString());
+            DateOperations DO = new DateOperations();
+            String date = DO.getdateFile();
+            File root = android.os.Environment.getExternalStorageDirectory();
+            java.io.File file1 = new java.io.File(root.getAbsolutePath() + "/ServiceAssistant/" + date);
+            String dirname = "/ServiceAssistant/" + date + "/";
+            File file2 = new File(root.getAbsolutePath() + "/ServiceAssistant/" + date + "/" + date + "book.txt");
+            FileOperations FO = new FileOperations();
+            FO.removeOneToData(file2, dirname, mDbxAcctMgr);
+            getPrefs();
+            updateUIElement(file2, R.id.bookCounter);
+            return true;
+        }
+
+    }
+
+    public static int getSecondsFromDurationString(String value){
+
+        String [] parts = value.split(":");
+
+        // Wrong format, no value for you.
+        if(parts.length < 2 || parts.length > 3)
+            return 0;
+
+        int seconds = 0, minutes = 0, hours = 0;
+
+        if(parts.length == 2){
+            seconds = Integer.parseInt(parts[1]);
+            minutes = Integer.parseInt(parts[0]);
+        }
+        else if(parts.length == 3){
+            seconds = Integer.parseInt(parts[2]);
+            minutes = Integer.parseInt(parts[1]);
+            hours = Integer.parseInt(parts[1]);
+        }
+
+        return seconds + (minutes*60) + (hours*3600);
     }
 }
 

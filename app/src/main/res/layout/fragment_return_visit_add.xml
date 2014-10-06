@@ -17,7 +17,8 @@
         android:textColorHint="#e0f2f1"
         android:textColor="#e0f2f1"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_toLeftOf="@+id/location" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -43,9 +44,9 @@
         android:hint="Time"
         android:textColorHint="#e0f2f1"
         android:textColor="#e0f2f1"
-        android:layout_below="@+id/city"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="10dp" />
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/Address" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -68,27 +69,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignEnd="@+id/date" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/city"
-        android:layout_below="@+id/Address"
-        android:layout_alignParentStart="true"
-        android:hint="City"
-        android:textColorHint="#e0f2f1"
-        android:textColor="#e0f2f1"
-        android:layout_toLeftOf="@+id/state" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/state"
-        android:textColor="#e0f2f1"
-        android:textColorHint="#e0f2f1"
-        android:hint="State"
-        android:layout_below="@+id/Address"
-        android:layout_alignParentEnd="true" />
-
+    <!--
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
@@ -104,21 +85,46 @@
             android:layout_alignParentStart="true"
             android:layout_marginBottom="53dp" />
     </LinearLayout>
-
+-->
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/location"
         android:src="@drawable/ic_action_place"
         android:contentDescription="Location"
-        android:layout_above="@+id/Address"
-        android:layout_toRightOf="@+id/Name" />
+        android:layout_alignBottom="@+id/Name"
+        android:layout_alignRight="@+id/date"
+        android:layout_alignEnd="@+id/date" />
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/filter"
         android:layout_below="@+id/time"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="3dp" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/placementSpin"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/filter"
+        android:layout_marginLeft="3dp" />
+
+    <EditText
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/notes"
+        android:layout_below="@+id/placementSpin"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="3dp"
+        android:textColor="#e0f2f1"
+        android:textColorHint="#e0f2f1"
+        android:hint="Notes" />
 
 </RelativeLayout>

@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.collusion.serviceassistant"
-        minSdkVersion 17
+        minSdkVersion 16
         targetSdkVersion 19
     }
 
@@ -22,6 +22,7 @@ dependencies {
     // You must install or update the Support Repository through the SDK manager to use this dependency.
     compile 'com.android.support:support-v4:20.0.0'
     compile 'com.android.support:appcompat-v7:19.0+'
+    compile 'com.google.android.gms:play-services:5.0.+'
 }
 dependencies {
     compile files('libs/dropbox-sync-sdk-android.jar')

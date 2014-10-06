@@ -1,6 +1,5 @@
 package com.collusion.serviceassistant.operations;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.dropbox.sync.android.DbxAccountManager;
@@ -19,8 +18,7 @@ import java.util.List;
  */
 public class DropBoxMethods {
 
-    public void doDropboxTest(Context activity) throws DbxException.Unauthorized {
-        DbxAccountManager mDbxAcctMgr = DbxAccountManager.getInstance(activity, "wup7j5haihrzc11", "29dhk340mmpecsj");
+    public void doDropboxTest(DbxAccountManager mDbxAcctMgr) throws DbxException.Unauthorized {
         try {
             final String TEST_DATA = "Hello Dropbox";
             final String TEST_FILE_NAME = "Pars";
@@ -42,6 +40,8 @@ public class DropBoxMethods {
             if (!dbxFs.exists(testPath)) {
                 DbxFile testFile = dbxFs.create(testPath);
                 try {
+                    String info = testFile.getInfo().toString();
+                    Log.i("DBX", info);
                     testFile.writeString(TEST_DATA);
                 } finally {
                     testFile.close();

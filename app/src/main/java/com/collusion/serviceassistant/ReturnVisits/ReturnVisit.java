@@ -14,11 +14,12 @@ public class ReturnVisit implements Comparator<ReturnVisit>, Comparable<ReturnVi
     private String latlong;
     private String dayofWeek;
     private String distances;
+    private String Notes;
 
     ReturnVisit(){
     }
 
-    ReturnVisit(String n, String a, String f, String lon, String lat, String ll, String dow, String d){
+    public ReturnVisit(String n, String a, String f, String lon, String lat, String ll, String dow, String d, String notes){
         name = n;
         address = a;
         filename = f;
@@ -27,6 +28,8 @@ public class ReturnVisit implements Comparator<ReturnVisit>, Comparable<ReturnVi
         latlong = ll;
         dayofWeek = dow;
         distances = d;
+        Notes = Notes;
+
     }
 
 
@@ -62,6 +65,10 @@ public class ReturnVisit implements Comparator<ReturnVisit>, Comparable<ReturnVi
 
     public String getDistances(){
         return distances;
+    }
+
+    public String getNotes(){
+        return Notes;
     }
 
 

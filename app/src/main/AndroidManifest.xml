@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.collusion.serviceassistant"
-    android:versionCode="11"
-    android:versionName="0.2.8" >
+    android:versionCode="12"
+    android:versionName="0.2.91" >
 
+
+    <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyBk1opqpmoeRLXOdZazuclZzzb9daH_Q9g" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="unai.skripsi.mymaps.permission.MAPS_RECEIVE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
+    <uses-permission android:name="android.permission.NFC" />
 
     <uses-sdk
         android:minSdkVersion="16"
@@ -23,7 +23,6 @@
         android:label="@string/app_name"
         android:theme="@style/Theme.Sa" >
         <receiver android:name=".onAlarmReceive" />
-
 
         <activity
             android:name=".MainActivity"
@@ -72,8 +71,17 @@
                 android:value="com.collusion.serviceassistant.MainActivity" />
         </activity>
         <activity
-            android:name=".mapsActivity"
-            android:label="@string/title_activity_maps" >
+            android:name=".ReturnVisitViewer"
+            android:label="@string/title_activity_return_visit_viewer" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="file" />
+                <data android:mimeType="*/*" />
+                <data android:pathPattern=".*\\.srv" />
+                <data android:host="*" />
+            </intent-filter>
         </activity>
     </application>
 

@@ -50,10 +50,10 @@
                 android:gravity="center"
                 android:textAlignment="gravity"
                 android:textColor="#e0f2f1"
-                android:layout_marginTop="61dp"
                 android:layout_below="@+id/GoalBar"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:layout_alignParentStart="true"
+                android:layout_marginBottom="15dp" />
 
             <Button
                 android:layout_width="fill_parent"
@@ -64,7 +64,9 @@
                 android:textColor="#e0f2f1"
                 android:background="#00796b"
                 android:layout_below="@+id/jwt5Counter"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:textSize="25dp"
+                android:layout_marginBottom="15dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -72,10 +74,9 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="0"
                 android:id="@+id/magazineCounter"
-                android:textSize="50dp"
-                android:layout_marginTop="66dp"
+                android:textSize="75dp"
                 android:textColor="#e0f2f1"
-                android:layout_below="@+id/HoursToGo"
+                android:layout_above="@+id/maglabel"
                 android:layout_toLeftOf="@+id/textView6" />
 
             <TextView
@@ -85,9 +86,8 @@
                 android:text="@string/magazinelabel"
                 android:id="@+id/maglabel"
                 android:textColor="#e0f2f1"
-                android:layout_below="@+id/magazineCounter"
-                android:layout_alignRight="@+id/magazineCounter"
-                android:layout_alignEnd="@+id/magazineCounter" />
+                android:layout_below="@+id/rvcounter"
+                android:layout_toLeftOf="@+id/textView6" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -95,7 +95,7 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="0"
                 android:id="@+id/rvcounter"
-                android:textSize="50dp"
+                android:textSize="75dp"
                 android:textColor="#e0f2f1"
                 android:layout_alignTop="@+id/textView6"
                 android:layout_toRightOf="@+id/textView6" />
@@ -117,10 +117,9 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="0"
                 android:id="@+id/brochureCounter"
-                android:layout_marginTop="42dp"
-                android:textSize="50dp"
+                android:textSize="75dp"
                 android:textColor="#e0f2f1"
-                android:layout_below="@+id/maglabel"
+                android:layout_above="@+id/brochureLabel"
                 android:layout_alignRight="@+id/maglabel"
                 android:layout_alignEnd="@+id/maglabel" />
 
@@ -131,7 +130,7 @@
                 android:text="@string/brochures"
                 android:id="@+id/brochureLabel"
                 android:textColor="#e0f2f1"
-                android:layout_below="@+id/brochureCounter"
+                android:layout_below="@+id/bookCounter"
                 android:layout_alignRight="@+id/maglabel"
                 android:layout_alignEnd="@+id/maglabel" />
 
@@ -141,11 +140,11 @@
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="0"
                 android:id="@+id/bookCounter"
-                android:textSize="50dp"
+                android:textSize="75dp"
                 android:textColor="#e0f2f1"
-                android:layout_alignTop="@+id/brochureCounter"
-                android:layout_alignLeft="@+id/rvcounter"
-                android:layout_alignStart="@+id/rvcounter" />
+                android:layout_below="@+id/rvlabel"
+                android:layout_alignLeft="@+id/rvlabel"
+                android:layout_alignStart="@+id/rvlabel" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -165,8 +164,11 @@
                 android:id="@+id/MainGoalLabel"
                 android:layout_gravity="center_horizontal"
                 android:textColor="#e0f2f1"
-                android:layout_below="@+id/goalButton"
-                android:layout_centerHorizontal="true" />
+                android:textSize="25dp"
+                android:layout_below="@+id/exactHours"
+                android:layout_centerHorizontal="true"
+                android:gravity="center_horizontal"
+                android:textAlignment="center" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -178,6 +180,7 @@
                 android:gravity="top"
                 android:layout_gravity="center_horizontal"
                 android:textColor="#e0f2f1"
+                android:textSize="25dp"
                 android:layout_below="@+id/MainGoalLabel"
                 android:layout_centerHorizontal="true" />
 
@@ -187,15 +190,86 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Large Text"
                 android:id="@+id/textView6"
-                android:layout_alignTop="@+id/magazineCounter"
+                android:visibility="invisible"
+                android:layout_below="@+id/stp"
                 android:layout_centerHorizontal="true"
-                android:visibility="invisible" />
+                android:layout_marginTop="55dp" />
 
             <Space
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_below="@+id/bookLabel"
-                android:layout_centerHorizontal="true" />
+                android:layout_centerHorizontal="true"
+                android:id="@+id/space" />
+
+            <Chronometer
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/chronometer"
+                android:textAlignment="center"
+                android:text="00:00:00"
+                android:textSize="50dp"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:textColor="#e0f2f1"
+                android:layout_marginTop="23dp"
+                android:layout_below="@+id/HoursToGo"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/startBtn"
+                android:id="@+id/start"
+                android:background="#00796b"
+                android:textColor="#e0f2f1"
+                android:layout_below="@+id/chronometer"
+                android:layout_toLeftOf="@+id/magazineCounter" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/stop"
+                android:id="@+id/stp"
+                android:background="#00796b"
+                android:textColor="#e0f2f1"
+                android:layout_alignBaseline="@+id/start"
+                android:layout_alignBottom="@+id/start"
+                android:layout_toLeftOf="@+id/space" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add"
+                android:id="@+id/add"
+                android:textColor="#e0f2f1"
+                android:background="#00796b"
+                android:layout_alignTop="@+id/stp"
+                android:layout_toRightOf="@+id/bookLabel" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/resetMenu"
+                android:id="@+id/resetBtn"
+                android:background="#00796b"
+                android:textColor="#e0f2f1"
+                android:layout_above="@+id/textView6"
+                android:layout_alignRight="@+id/rvcounter"
+                android:layout_alignEnd="@+id/rvcounter" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/exactHours"
+                android:textColor="#e0f2f1"
+                android:textSize="25dp"
+                android:layout_below="@+id/goalButton"
+                android:layout_centerHorizontal="true"
+                android:textAlignment="gravity"
+                android:gravity="center_horizontal" />
 
         </RelativeLayout>
     </ScrollView>

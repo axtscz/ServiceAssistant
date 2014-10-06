@@ -2,7 +2,10 @@ package com.collusion.serviceassistant.operations;
 
 import android.util.Log;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by Antonio on 8/24/2014.
@@ -106,5 +109,24 @@ public class DateOperations {
             Log.i("INFOMONTH", TitleMonth);
             return TitleMonth;
         }
+    }
+
+    public String getTime()
+    {
+        DateFormat dateFormat = new SimpleDateFormat("hh:mm a");
+        Calendar cal = Calendar.getInstance();
+        Date date = cal.getTime();
+        String time = dateFormat.format(date);
+        Log.i("INFO", time);
+        return time;
+    }
+    public String getCurrentDate()
+    {
+        DateFormat dateFormat = new SimpleDateFormat("mm/dd/yy");
+        Calendar cal = Calendar.getInstance();
+        Date date = cal.getTime();
+        String time = dateFormat.format(date);
+        Log.i("INFO", time);
+        return time;
     }
 }
